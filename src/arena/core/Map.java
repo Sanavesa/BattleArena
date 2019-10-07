@@ -99,6 +99,10 @@ final class Map
 		if(!isWithinBounds(x, y))
 			return false;
 		
+		Entity destEntity = getEntity(x, y);
+		if(destEntity instanceof Wall || destEntity instanceof Storm)
+			return false;
+		
 		return isEmpty(x, y);
 	}
 	
@@ -115,6 +119,10 @@ final class Map
 	final boolean canAddPlayer(int x, int y)
 	{
 		if(!isWithinBounds(x, y))
+			return false;
+		
+		Entity destEntity = getEntity(x, y);
+		if(destEntity instanceof Wall || destEntity instanceof Storm)
 			return false;
 		
 		return isEmpty(x, y);
@@ -136,8 +144,7 @@ final class Map
 			return false;
 		
 		Entity destEntity = getEntity(x, y);
-		
-		if(destEntity instanceof Wall)
+		if(destEntity instanceof Wall || destEntity instanceof Storm)
 			return false;
 		
 		return true;
@@ -158,6 +165,10 @@ final class Map
 		if(!isWithinBounds(x, y))
 			return false;
 		
+		Entity destEntity = getEntity(x, y);
+		if(destEntity instanceof Wall || destEntity instanceof Storm)
+			return false;
+		
 		return isEmpty(x, y);
 	}
 	
@@ -176,6 +187,10 @@ final class Map
 		if(!isWithinBounds(x, y))
 			return false;
 		
+		Entity destEntity = getEntity(x, y);
+		if(destEntity instanceof Wall || destEntity instanceof Storm)
+			return false;
+		
 		return isEmpty(x, y);
 	}
 	
@@ -185,13 +200,19 @@ final class Map
 			return null;
 		
 		Entity entity = getEntity(x, y);
-		if(entity != null && !(entity instanceof Storm))
-		{
-			entity.destroy();
-		}
+		
+		if(entity instanceof Storm)
+			return null;
 		
 		Storm storm = new Storm(this, x, y);
 		entities.add(storm);
+		
+		if(entity != null)
+		{
+			entity.onCollidedGeneric(storm);
+			storm.onCollidedGeneric(entity);
+		}
+		
 		return storm;
 	}
 	
