@@ -188,4 +188,12 @@ public final class GameUtility
 		}
 		return (anyMatches)? furthest : null;
 	}
+	
+	public final boolean isWithinStorm(int x, int y, int stormSize)
+	{
+		double minX = Math.min(x + 1, Math.abs(x - gameState.getMapWidth()));
+		double minY = Math.min(y + 1, Math.abs(y - gameState.getMapLength()));
+		double distance = Math.min(minX, minY);
+		return distance <= stormSize;
+	}
 }

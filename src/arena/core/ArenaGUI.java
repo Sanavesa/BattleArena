@@ -65,7 +65,7 @@ public class ArenaGUI extends AnchorPane
 			}
 			
 			map.clear();
-			map.generateWalls(0.3);
+			map.generateWalls(0.15);
 			map.generateHealthPacks(0.03);
 			addPlayers();
 			redisplay();
