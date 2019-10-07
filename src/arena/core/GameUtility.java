@@ -19,7 +19,7 @@ public final class GameUtility
 		if(isOutOfBounds(x, y))
 			return false;
 		
-		EntityType entityType = gameState.getEntityType(x, y);
+		EntityType entityType = gameState.getEntityAt(x, y);
 		if(entityType == EntityType.Empty)
 			return true;
 		if(entityType == EntityType.Storm || entityType == EntityType.Wall)
@@ -99,8 +99,8 @@ public final class GameUtility
 	
 	public final Action moveTowards(int destinationX, int destinationY)
 	{
-		int startX = gameState.getPlayerX();
-		int startY = gameState.getPlayerY();
+		int startX = gameState.getMyPlayerX();
+		int startY = gameState.getMyPlayerY();
 		Node[] path = calculatePath(startX, startY, destinationX, destinationY);
 		
 		if(path.length > 0) // A path exists
@@ -148,7 +148,7 @@ public final class GameUtility
 		{
 			for(int xx = 0; xx < gameState.getMapWidth(); xx++)
 			{
-				EntityType entityType = gameState.getEntityType(xx, yy);
+				EntityType entityType = gameState.getEntityAt(xx, yy);
 				if(entityType != criterion)
 					continue;
 				int calculatedDistance = manhattanDistance(x, y, xx, yy);
@@ -173,7 +173,7 @@ public final class GameUtility
 		{
 			for(int xx = 0; xx < gameState.getMapWidth(); xx++)
 			{
-				EntityType entityType = gameState.getEntityType(xx, yy);
+				EntityType entityType = gameState.getEntityAt(xx, yy);
 				if(entityType != criterion)
 					continue;
 				int calculatedDistance = manhattanDistance(x, y, xx, yy);

@@ -14,18 +14,47 @@ public final class GameState
 	}
 	
 	private final Player player;
+	private Player otherPlayer;
 	private final Map map;
 	private final EntityType[][] visualMap;
 	
 	GameState(Player player)
 	{
-		this.player = player;
 		map = player.map;
+		this.player = player;
+		
+		for(int y = 0; y < map.getHeight(); y++)
+		{
+			for(int x = 0; x < map.getWidth(); x++)
+			{
+				Entity entity = map.getEntity(x, y);
+				if(entity instanceof Player)
+				{
+					if(!entity.equals(player))
+					{
+						otherPlayer = (Player) entity;
+						break;
+					}
+				}
+			}
+		}
+		
 		visualMap = new EntityType[map.getWidth()][map.getHeight()];
 		constructVisualMap();
 	}
 	
-	EntityType getEntityType(int x, int y)
+	private final void constructVisualMap()
+	{
+		for(int y = 0; y < map.getHeight(); y++)
+		{
+			for(int x = 0; x < map.getWidth(); x++)
+			{
+				visualMap[x][y] = getEntityType(x, y); 
+			}
+		}
+	}
+	
+	private final EntityType getEntityType(int x, int y)
 	{
 		Entity entity = map.getEntity(x, y);
 		if(entity == null)
@@ -52,15 +81,12 @@ public final class GameState
 		return EntityType.Empty;
 	}
 	
-	private final void constructVisualMap()
+	public final EntityType getEntityAt(int x, int y)
 	{
-		for(int y = 0; y < map.getHeight(); y++)
-		{
-			for(int x = 0; x < map.getWidth(); x++)
-			{
-				visualMap[x][y] = getEntityType(x, y); 
-			}
-		}
+		if(x < 0 || y < 0 || x >= getMapWidth() || y >= getMapLength())
+			return null;
+		
+		return visualMap[x][y];
 	}
 	
 	public final int getMapWidth()
@@ -73,6 +99,32 @@ public final class GameState
 		return map.getHeight();
 	}
 	
+	public final EntityType[][] getMap()
+	{
+		return visualMap;
+	}
+	
+	public final int getOtherPlayerHealth()
+	{
+		if(otherPlayer != null)
+			return otherPlayer.getHealth();
+		return -1;
+	}
+	
+	public final int getOtherPlayerX()
+	{
+		if(otherPlayer != null)
+			return otherPlayer.getX();
+		return -1;
+	}
+	
+	public final int getOtherPlayerY()
+	{
+		if(otherPlayer != null)
+			return otherPlayer.getY();
+		return -1;
+	}
+	
 	public final int getPlayerHealth()
 	{
 		return player.getHealth();
@@ -83,12 +135,12 @@ public final class GameState
 		return Player.HEALTH_MAX;
 	}
 	
-	public final int getPlayerX()
+	public final int getMyPlayerX()
 	{
 		return player.getX();
 	}
 	
-	public final int getPlayerY()
+	public final int getMyPlayerY()
 	{
 		return player.getY();
 	}
@@ -148,5 +200,15 @@ public final class GameState
 			return false;
 		
 		return !player.equals(entity);
+	}
+	
+	public final int getStormSize()
+	{
+		return map.getStormSize();
+	}
+	
+	public final int getStormMaxSize()
+	{
+		return map.getStormMaxSize();
 	}
 }

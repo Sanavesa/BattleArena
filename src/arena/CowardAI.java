@@ -28,8 +28,8 @@ public class CowardAI extends PlayerAI
 		}
 		
 		// Calculate distance
-		int myX = gameState.getPlayerX();
-		int myY = gameState.getPlayerY();
+		int myX = gameState.getMyPlayerX();
+		int myY = gameState.getMyPlayerY();
 		double distance = Math.sqrt(Math.pow(myX - otherX, 2) + Math.pow(myY - otherY, 2));
 		boolean sameLane = ((myX == otherX) || (myY == otherY));
 		
