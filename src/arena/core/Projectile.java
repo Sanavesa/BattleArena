@@ -1,10 +1,13 @@
 package arena.core;
 
+import javafx.scene.paint.Color;
+
 final class Projectile extends Entity
 {
 	private final int speedX;
 	private final int speedY;
 	private final Player player;
+	public final Color color;
 	
 	Projectile(Map map, int x, int y, int speedX, int speedY, Player player)
 	{
@@ -12,6 +15,7 @@ final class Projectile extends Entity
 		this.player = player;
 		this.speedX = speedX;
 		this.speedY = speedY;
+		color = player.getColor().interpolate(Color.WHITE, 0.5);
 	}
 	
 	boolean isOwner(Player player)

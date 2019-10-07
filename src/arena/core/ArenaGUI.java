@@ -13,13 +13,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import arena.ChasingAI;
-import arena.RandomAI;
+import arena.CowardAI;
 
 public class ArenaGUI extends AnchorPane
 {
 	private final Map map;
 	private Player player1, player2;
-	private PlayerAI playerAI1 = new RandomAI();
+	private PlayerAI playerAI1 = new CowardAI();
 	private PlayerAI playerAI2 = new ChasingAI();
 	private VisualEntity[][] visualEntities;
 	private Timeline timeline;
@@ -87,6 +87,21 @@ public class ArenaGUI extends AnchorPane
 				playerAI2.playTurn(player2);
 				map.tick();
 				redisplay();
+				
+				if(player1.isDead() || player2.isDead())
+				{
+					if(timeline != null)
+					{
+						timeline.stop();
+						timeline = null;
+					}
+					
+					if(timeline2 != null)
+					{
+						timeline2.stop();
+						timeline2 = null;
+					}
+				}
 			}));
 			
 			timeline2.getKeyFrames().add(new KeyFrame(Duration.seconds(2.0), e2 ->
@@ -180,12 +195,13 @@ class VisualEntity extends StackPane
 		setMinSize(size, size);
 		setMaxSize(size, size);
 		setPrefSize(size, size);
-		rectangle = new Rectangle(size-2, size-2);
+		rectangle = new Rectangle(size, size);
+//		rectangle = new Rectangle(size-2, size-2);
 		label = new Label("");
 		label.setTextFill(Color.WHITE);
 		
 		getChildren().addAll(rectangle, label);
-		setStyle("-fx-border-color: black; -fx-border-width: 1;");
+//		setStyle("-fx-border-color: black; -fx-border-width: 1;");
 		setEntity(entity);
 	}
 	
@@ -212,11 +228,13 @@ class VisualEntity extends StackPane
 			}
 			else if(entity instanceof Storm)
 			{
-				color = Color.ORANGE;
+				color = Color.rgb(255, 255, 0, 0.25);
+//				color = Color.ORANGE;
 			}
 			else if(entity instanceof Projectile)
 			{
-				color = Color.YELLOW;
+				color = ((Projectile) entity).color;
+//				color = Color.YELLOW;
 			}
 			else if(entity instanceof Mine)
 			{
