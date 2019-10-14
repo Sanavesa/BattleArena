@@ -1,10 +1,11 @@
 package arena.core;
 
-import arena.agents.RandomAI;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import arena.agents.RandomAI;
 
 public class BattleArena extends Application
 {
