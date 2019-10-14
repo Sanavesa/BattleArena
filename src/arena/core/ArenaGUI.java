@@ -93,7 +93,7 @@ final class ArenaGUI extends BorderPane
 		btnPlayNPause.relocate(150, 0);
 		btnPlayNPause.setOnAction(e -> onPlayNPauseClicked());
 		
-		HBox hBox = new HBox(20, createSeparator(), btnGenerate, createSeparator(), btnPlayNPause, createSeparator());
+		HBox hBox = new HBox(createSeparator(), btnGenerate, createSeparator(), btnPlayNPause, createSeparator());
 		hBox.setPadding(new Insets(10, 0, 10, 0));
 		top.getChildren().add(hBox);
 	}
