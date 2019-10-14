@@ -1,4 +1,4 @@
-package arena;
+package arena.example;
 
 import arena.core.Action;
 import arena.core.GameState;

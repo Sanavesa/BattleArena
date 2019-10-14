@@ -12,10 +12,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import arena.ChasingAI;
-import arena.CowardAI;
+import java.lang.reflect.InvocationTargetException;
 
-public class ArenaGUI extends AnchorPane
+import arena.example.ChasingAI;
+import arena.example.CowardAI;
+import arena.example.RandomAI;
+
+final class ArenaGUI extends AnchorPane
 {
 	private final Map map;
 	private Player player1, player2;
@@ -25,10 +28,32 @@ public class ArenaGUI extends AnchorPane
 	private Timeline timeline;
 	private Timeline timeline2;
 	
-	public ArenaGUI(int width, int height, int pixelSize)
+	public ArenaGUI(int mapWidth, int mapHeight, int pixelSize, Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
 	{
 		super();
-		map = new Map(width, height);
+		
+		//Creating ai
+		try
+		{
+			playerAI1 = p1Class.getDeclaredConstructor().newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+		{
+			e1.printStackTrace();
+			playerAI1 = new RandomAI();
+		}
+		
+		try
+		{
+			playerAI2 = p2Class.getDeclaredConstructor().newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
+		{
+			e1.printStackTrace();
+			playerAI2 = new RandomAI();
+		}
+		
+		map = new Map(mapWidth, mapHeight);
 		
 		GridPane gridPane = new GridPane();
 		visualEntities = new VisualEntity[map.getWidth()][map.getHeight()];

@@ -1,4 +1,4 @@
-package arena;
+package arena.example;
 
 import java.util.Random;
 
