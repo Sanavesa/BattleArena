@@ -3,6 +3,7 @@ package arena.core;
 import arena.example.RandomAI;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class BattleArena extends Application
@@ -104,7 +105,12 @@ public class BattleArena extends Application
 	{
 		ArenaGUI pane = new ArenaGUI(mapWidth, mapHeight, pixelSize, p1Class, p2Class);
 		Scene scene = new Scene(pane);
+		
 		stage.setScene(scene);
+		stage.setTitle("Battle Arena");
+		stage.setResizable(false);
+		stage.getIcons().add(new Image("res/icon.png"));
+		
 		stage.show();
 	}
 }
