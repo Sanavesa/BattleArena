@@ -312,6 +312,7 @@ public final class GameUtility
 	 * 
 	 * <p>
 	 * The following code snippet finds the position of the nearest health pack:
+	 * </p>
 	 * <pre>
 	 * // Assume have reference to gameUtility and gameState
 	 * int playerX = gameState.getPlayerX();
@@ -322,7 +323,6 @@ public final class GameUtility
 	 *   // do things such as moving towards it...
 	 * }
 	 * </pre>
-	 * </p>
 	 * 
 	 * <p>
 	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
@@ -369,6 +369,7 @@ public final class GameUtility
 	 * 
 	 * <p>
 	 * The following code snippet finds the position of the furthest health pack:
+	 * </p>
 	 * <pre>
 	 * // Assume have reference to gameUtility and gameState
 	 * int playerX = gameState.getPlayerX();
@@ -379,7 +380,6 @@ public final class GameUtility
 	 *   // do things such as moving towards it...
 	 * }
 	 * </pre>
-	 * </p>
 	 * 
 	 * <p>
 	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
@@ -457,10 +457,10 @@ public final class GameUtility
 	 * 
 	 * <p>
 	 * For example, the following snippet will randomly choose a move action:
+	 * </p>
 	 * <pre>
 	 * Action randomMove = chooseRandomly(Action.MoveUp, Action.MoveDown, Action.MoveLeft, Action.MoveRight);
 	 * </pre>
-	 * </p>
 	 * 
 	 * @param actions - the set of actions to randomly choose from
 	 * 

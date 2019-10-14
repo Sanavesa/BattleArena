@@ -96,7 +96,7 @@ public final class GameState
 	 * Returns true if the tile at the specified position is out of the map bounds.
 	 * 
 	 * <p>
-	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link getMapWidth()}-1, {@link getMapHeight()}-1)</code> (bottom-right).
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link #getMapWidth()}-1, {@link #getMapHeight()}-1)</code> (bottom-right).
 	 * </p>
 	 * 
 	 * @param x - a zero-based x-position
@@ -156,11 +156,11 @@ public final class GameState
 	 * 
 	 * <p>
 	 * For example, to get which entity is at coordinate <code>(3, 4)</code>, one would do:
+	 * </p>
 	 * <pre>
 	 * EntityType[][] map = gameState.getMap();
 	 * EntityType entity = map[3][4];
 	 * </pre>
-	 * </p>
 	 * 
 	 * @return a 2D map of the entities
 	 */
