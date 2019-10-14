@@ -9,8 +9,9 @@ final class Player extends Entity
 	private int health = HEALTH_START;
 	private final String name;
 	private final Color color;
-	private boolean placedMine = false;
+	private int placeMineCooldown = 0;
 	private int xScaleMultiplier = 1;
+	static final int MINE_COOLDOWN = 10;
 	
 	Player(Map map, int x, int y, String name, Color color)
 	{
@@ -119,17 +120,17 @@ final class Player extends Entity
 	
 	private boolean placeMine(int x, int y)
 	{
-		if(isDead() || placedMine)
+		if(isDead() || canPlaceMine())
 			return false;
 		
 		Mine mine = map.addMine(x, y);
-		placedMine = true;
+		placeMineCooldown = MINE_COOLDOWN;
 		return mine != null;
 	}
 	
-	final boolean hasPlacedMine()
+	final boolean canPlaceMine()
 	{
-		return placedMine;
+		return placeMineCooldown <= 0;
 	}
 
 	final boolean shootUp()
@@ -202,5 +203,19 @@ final class Player extends Entity
 	public final String toString()
 	{
 		return getName();
+	}
+	
+	final int getPlaceMineCooldown()
+	{
+		return placeMineCooldown;
+	}
+	
+	@Override
+	void onUpdate()
+	{
+		if(placeMineCooldown > 0)
+		{
+			placeMineCooldown--;
+		}
 	}
 }

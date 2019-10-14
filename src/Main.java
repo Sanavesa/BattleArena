@@ -6,6 +6,6 @@ public class Main
 	public static void main(String[] args)
 	{
 		// Start the game with RandomAI vs TemplateAI
-		BattleArena.startArena(ChasingAI.class, ChasingAI.class);
+		BattleArena.startArena(SimpleAI.class, SimpleAI.class);
 	}
 }

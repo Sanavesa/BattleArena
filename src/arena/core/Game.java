@@ -73,8 +73,8 @@ final class Game
 	public final void tick()
 	{
 		round++;
-		agent1.playTurn(this, player1);
-		agent2.playTurn(this, player2);
+		agent1.playRound(this, player1);
+		agent2.playRound(this, player2);
 		map.tick();
 		if(round % ROUND_PER_STORM_ADVANCE == 0)
 		{

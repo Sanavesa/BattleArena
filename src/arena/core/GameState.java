@@ -580,12 +580,23 @@ public final class GameState
 	
 	/**
 	 * Returns true if the player can place a mine, false otherwise.
-	 * This is because each player can place at most 1 mine per game.
+	 * Note that the player can only place 1 mine per 10 rounds.
 	 * 
 	 * @return true if can place mine, false otherwise
 	 */
 	public final boolean canPlaceMine()
 	{
-		return !game.getPlayer1().hasPlacedMine();
+		return game.getPlayer1().canPlaceMine();
+	}
+	
+	/**
+	 * Returns the amount of rounds before the player can place a mine.
+	 * Note that the player can only place 1 mine per 10 rounds.
+	 * 
+	 * @return amount of rounds before can place a mine
+	 */
+	public final int getCurrentMineCooldown()
+	{
+		return game.getPlayer1().getPlaceMineCooldown();
 	}
 }

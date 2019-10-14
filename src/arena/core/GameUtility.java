@@ -451,4 +451,27 @@ public final class GameUtility
 		double distance = Math.min(minX, minY);
 		return distance <= stormSize;
 	}
+	
+	/**
+	 * Chooses randomly from the specified actions. If no actions are specified, {@link Action#NoAction} is returned.
+	 * 
+	 * <p>
+	 * For example, the following snippet will randomly choose a move action:
+	 * <pre>
+	 * Action randomMove = chooseRandomly(Action.MoveUp, Action.MoveDown, Action.MoveLeft, Action.MoveRight);
+	 * </pre>
+	 * </p>
+	 * 
+	 * @param actions - the set of actions to randomly choose from
+	 * 
+	 * @return a random action from the specified actions
+	 */
+	public final Action chooseRandomly(Action... actions)
+	{
+		if(actions == null || actions.length == 0)
+			return Action.NoAction;
+		
+		int index = (int) (actions.length * Math.random());
+		return actions[index];
+	}
 }

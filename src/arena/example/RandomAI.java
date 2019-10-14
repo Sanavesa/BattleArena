@@ -9,7 +9,10 @@ import arena.core.PlayerAI;
 
 public class RandomAI extends PlayerAI
 {
+	// Generate a random generator
 	private final Random rand;
+	
+	// Store all possible actions in an array for future use
 	private final Action[] actions;
 	
 	public RandomAI()
@@ -21,6 +24,7 @@ public class RandomAI extends PlayerAI
 	@Override
 	protected Action getNextAction(GameState gameState, GameUtility gameUtility)
 	{
-		return actions[rand.nextInt(actions.length-8)];
+		// Returns a random action from the actions array
+		return actions[rand.nextInt(actions.length)];
 	}
 }
