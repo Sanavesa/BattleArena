@@ -32,4 +32,10 @@ final class HealthPack extends Entity
 	{
 		destroy();
 	}
+	
+	@Override
+	void onCollided(Mine mine)
+	{
+		destroy();
+	}
 }

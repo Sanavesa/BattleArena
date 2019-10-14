@@ -16,7 +16,7 @@ public class ChasingAI extends PlayerAI
 		int otherX = -1;
 		int otherY = -1;
 		boolean found = false;
-		for(int y = 0; y < gameState.getMapLength() && !found; y++)
+		for(int y = 0; y < gameState.getMapHeight() && !found; y++)
 		{
 			for(int x = 0; x < gameState.getMapWidth() && !found; x++)
 			{
@@ -31,8 +31,8 @@ public class ChasingAI extends PlayerAI
 		
 		if(found)
 		{
-			int myX = gameState.getMyPlayerX();
-			int myY = gameState.getMyPlayerY();
+			int myX = gameState.getPlayerX();
+			int myY = gameState.getPlayerY();
 			int distance = gameUtility.manhattanDistance(myX, myY, otherX, otherY);
 			
 			if(distance <= 5 && gameUtility.haveLineOfSight(myX, myY, otherX, otherY))
@@ -59,8 +59,8 @@ public class ChasingAI extends PlayerAI
 		}
 		else
 		{
-			int myX = gameState.getMyPlayerX();
-			int myY = gameState.getMyPlayerY();
+			int myX = gameState.getPlayerX();
+			int myY = gameState.getPlayerY();
 			Vector2 closestHealthPack = gameUtility.findNearest(myX, myY, EntityType.HealthPack);
 			if(closestHealthPack != null && gameState.getPlayerHealth() < gameState.getPlayerMaxHealth())
 			{
@@ -70,7 +70,7 @@ public class ChasingAI extends PlayerAI
 			{
 				// Run towards center of map
 				int centerX = gameState.getMapWidth()/2;
-				int centerY = gameState.getMapLength()/2;
+				int centerY = gameState.getMapHeight()/2;
 				return gameUtility.moveTowards(centerX, centerY);
 			}
 		}

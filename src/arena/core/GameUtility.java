@@ -2,6 +2,12 @@ package arena.core;
 
 import arena.core.GameState.EntityType;
 
+/**
+ * The <code>GameUtility</code> class represents a toolkit of utility functions available to the user. Most are common methods to simplify the lives of developers.
+ * Contains methods that handle path-finding, line-of-sight checks, and finding nearest or futher of a certain entity, and much more. This is used in conjuction with {@link GameState}.
+ * 
+ * @author ERAU AI Club
+ */
 public final class GameUtility
 {
 	private final GameState gameState;
@@ -10,13 +16,27 @@ public final class GameUtility
 	GameUtility(GameState gameState)
 	{
 		this.gameState = gameState;
-		nodes = new Node[gameState.getMapWidth()][gameState.getMapLength()];
+		nodes = new Node[gameState.getMapWidth()][gameState.getMapHeight()];
 		constructPathfindingNodes();
 	}
 	
-	public final boolean isWalkable(int x, int y)
+	/**
+	 * Returns true if the tile at the specified position is walkable by players and projectiles, false otherwise.
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param x - a zero-based x-position
+	 * @param y - a zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return true if the tile at the specified position is walked, false otherwise.
+	 */
+	public final boolean isWalkable(int x, int y) throws OutOfBoundsException
 	{
-		if(isOutOfBounds(x, y))
+		if(gameState.isOutOfBounds(x, y))
 			return false;
 		
 		EntityType entityType = gameState.getEntityAt(x, y);
@@ -29,7 +49,7 @@ public final class GameUtility
 	
 	private final void constructPathfindingNodes()
 	{
-		for(int y = 0; y < gameState.getMapLength(); y++)
+		for(int y = 0; y < gameState.getMapHeight(); y++)
 		{
 			for(int x = 0; x < gameState.getMapWidth(); x++)
 			{
@@ -38,32 +58,117 @@ public final class GameUtility
 		}
 	}
 	
-	public final boolean isOutOfBounds(int x, int y)
+	/**
+	 * Returns the path as an array of tile positions that are taken to reach the destination position. The path contains, in order, the tiles that it takes to reach the destination.
+	 * The first element in the array is the first tile to visit and not the start tile.
+	 * 
+	 * <p>
+	 * Calculates the shortest path from <code>(startX, startY)</code> to <code>(destinationX, destinationY)</code> using the A* path-finding algorithm.
+	 * If no path is possible, returns an empty array.
+	 * </p>
+	 * 
+	 * <p>
+	 * The positions are zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param startX - the start zero-based x-position
+	 * @param startY - the start zero-based y-position
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when either position is out of bounds
+	 * 
+	 * @return a series of vectors of the tiles in the path, from start to destination
+	 */
+	public final Vector2[] calculatePath(int startX, int startY, int destinationX, int destinationY) throws OutOfBoundsException
 	{
-		return (x < 0 || y < 0 || x >= gameState.getMapWidth() || y >= gameState.getMapLength());
-	}
-	
-	public final Node[] calculatePath(int startX, int startY, int destinationX, int destinationY)
-	{
-		if(isOutOfBounds(startX, startY))
-			return new Node[0];
-
-		if(isOutOfBounds(destinationX, destinationY))
-			return new Node[0];
+		if(gameState.isOutOfBounds(startX, startY))
+			throw new OutOfBoundsException(startX, startY);
+		
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
 		
 		Node startNode = nodes[startX][startY];
 		Node destinationNode = nodes[destinationX][destinationY];
-		Node[] path = AStar.calculatePath(nodes, startNode, destinationNode);
+		Node[] pathNodes = AStar.calculatePath(nodes, startNode, destinationNode);
+		Vector2[] path = new Vector2[pathNodes.length];
+		for(int i = 0; i < path.length; i++)
+		{
+			Node node = pathNodes[i];
+			path[i] = new Vector2(node.getX(), node.getY()); 
+		}
+		
 		return path;
 	}
 	
-	public final boolean isReachable(int startX, int startY, int destinationX, int destinationY)
+	/**
+	 * Returns true if the tile at the specified position is reachable via path-finding, false otherwise.
+	 * 
+	 * <p>
+	 * The positions are zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param startX - the start zero-based x-position
+	 * @param startY - the start zero-based y-position
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when either position is out of bounds
+	 * 
+	 * @return true if the tile at the specified position is reachable, false otherwise.
+	 */
+	public final boolean isReachable(int startX, int startY, int destinationX, int destinationY) throws OutOfBoundsException
 	{
+		if(gameState.isOutOfBounds(startX, startY))
+			throw new OutOfBoundsException(startX, startY);
+		
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
+		
 		return calculatePath(startX, startY, destinationX, destinationY).length > 0;
 	}
 	
-	public final boolean haveLineOfSight(int startX, int startY, int destinationX, int destinationY)
+	/**
+	 * Returns true if the tile at the specified position is reachable via path-finding, false otherwise.
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param x - a zero-based x-position
+	 * @param y - a zero-based y-position
+	 * 
+	 * @return true if the tile at the specified position is reachable, false otherwise.
+	 */
+	
+	/**
+	 * Returns true if the start tile has a line of sight towards the destination tile.
+	 * 
+	 * <p><b>
+	 * Note: This method only handles tiles that are in the same row or same column. They <u>need</u> to share a common x-position or y-position.
+	 * </b></p> 
+	 * 
+	 * <p>
+	 * The positions are zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param startX - the start zero-based x-position
+	 * @param startY - the start zero-based y-position
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when either position is out of bounds
+	 * 
+	 * @return true if the start tile can see without obstacles the destination tile, false otherwise
+	 */
+	public final boolean haveLineOfSight(int startX, int startY, int destinationX, int destinationY) throws OutOfBoundsException
 	{
+		if(gameState.isOutOfBounds(startX, startY))
+			throw new OutOfBoundsException(startX, startY);
+		
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
+		
 		// Check same lane
 		if(startX != destinationX && startY != destinationY)
 			return false;
@@ -97,11 +202,32 @@ public final class GameUtility
 		}
 	}
 	
-	public final Action moveTowards(int destinationX, int destinationY)
+	/**
+	 * Returns an action that moves the player to the specified location; if there is no path, it will return {@link Action#NoAction}.
+	 * 
+	 * <p>
+	 * This uses A* pathfinding to calculate the shortest path from {@link #calculatePath(int, int, int, int)}.
+	 * </p>
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return an action to move the player to the destination location.
+	 */
+	public final Action moveTowards(int destinationX, int destinationY) throws OutOfBoundsException
 	{
-		int startX = gameState.getMyPlayerX();
-		int startY = gameState.getMyPlayerY();
-		Node[] path = calculatePath(startX, startY, destinationX, destinationY);
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
+		
+		int startX = gameState.getPlayerX();
+		int startY = gameState.getPlayerY();
+		Vector2[] path = calculatePath(startX, startY, destinationX, destinationY);
 		
 		if(path.length > 0) // A path exists
 		{
@@ -125,6 +251,27 @@ public final class GameUtility
 		}
 	}
 	
+	/**
+	 * Calculates the manhattan distance between the specified locations.
+	 * 
+	 * <pre>
+	 * Manhattan distance = dx + dy,
+	 * 
+	 * 	where dx = absolute(destinationX - startX)
+	 * 	and   dy = absolute(destinationY - startY)
+	 * </pre>
+	 * 
+	 * <p>
+	 * The positions are zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param startX - the start zero-based x-position
+	 * @param startY - the start zero-based y-position
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @return the manhattan distance between the specified locations
+	 */
 	public final int manhattanDistance(int startX, int startY, int destinationX, int destinationY)
 	{
 		int dx = startX - destinationX;
@@ -132,6 +279,27 @@ public final class GameUtility
 		return Math.abs(dx) + Math.abs(dy);
 	}
 	
+	/**
+	 * Calculates the euclidian distance between the specified locations.
+	 * 
+	 * <pre>
+	 * Euclidian distance = sqrt(dx*dx + dy*dy),
+	 * 
+	 * 	where dx = absolute(destinationX - startX)
+	 * 	and   dy = absolute(destinationY - startY)
+	 * </pre>
+	 * 
+	 * <p>
+	 * The positions are zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param startX - the start zero-based x-position
+	 * @param startY - the start zero-based y-position
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @return the manhattan distance between the specified locations
+	 */
 	public final double euclidianDistance(int startX, int startY, int destinationX, int destinationY)
 	{
 		int dx = startX - destinationX;
@@ -139,12 +307,44 @@ public final class GameUtility
 		return Math.sqrt(dx*dx + dy*dy);
 	}
 	
-	public final Vector2 findNearest(int x, int y, EntityType criterion)
+	/**
+	 * Finds and returns the position of the nearest entity as specified by <code>criterion</code>. If no entities are found, returns null.
+	 * 
+	 * <p>
+	 * The following code snippet finds the position of the nearest health pack:
+	 * <pre>
+	 * // Assume have reference to gameUtility and gameState
+	 * int playerX = gameState.getPlayerX();
+	 * int playerX = gameState.getPlayerY();
+	 * Vector2 nearestHealthPack = gameUtility.findNearest(playerX, playerY, EntityType.HealthPack);
+	 * if(nearestHealthPack != null) // check if found a health pack
+	 * {
+	 *   // do things such as moving towards it...
+	 * }
+	 * </pre>
+	 * </p>
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param x - a zero-based x-position
+	 * @param y - a zero-based y-position
+	 * @param criterion - the entity type to search for
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return the position of the nearest entity, null otherwise
+	 */
+	public final Vector2 findNearest(int x, int y, EntityType criterion) throws OutOfBoundsException
 	{
+		if(gameState.isOutOfBounds(x, y))
+			throw new OutOfBoundsException(x, y);
+		
 		Vector2 closest = new Vector2();
 		int distance = Integer.MAX_VALUE;
 		boolean anyMatches = false;
-		for(int yy = 0; yy < gameState.getMapLength(); yy++)
+		for(int yy = 0; yy < gameState.getMapHeight(); yy++)
 		{
 			for(int xx = 0; xx < gameState.getMapWidth(); xx++)
 			{
@@ -164,12 +364,44 @@ public final class GameUtility
 		return (anyMatches)? closest : null;
 	}
 	
-	public final Vector2 findFurthest(int x, int y, EntityType criterion)
+	/**
+	 * Finds and returns the position of the furthest entity as specified by <code>criterion</code>. If no entities are found, returns null.
+	 * 
+	 * <p>
+	 * The following code snippet finds the position of the furthest health pack:
+	 * <pre>
+	 * // Assume have reference to gameUtility and gameState
+	 * int playerX = gameState.getPlayerX();
+	 * int playerX = gameState.getPlayerY();
+	 * Vector2 furthestHealthPack = gameUtility.findFurthest(playerX, playerY, EntityType.HealthPack);
+	 * if(furthestHealthPack != null) // check if found a health pack
+	 * {
+	 *   // do things such as moving towards it...
+	 * }
+	 * </pre>
+	 * </p>
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param x - a zero-based x-position
+	 * @param y - a zero-based y-position
+	 * @param criterion - the entity type to search for
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return the position of the furthest entity, null otherwise
+	 */
+	public final Vector2 findFurthest(int x, int y, EntityType criterion) throws OutOfBoundsException
 	{
+		if(gameState.isOutOfBounds(x, y))
+			throw new OutOfBoundsException(x, y);
+		
 		Vector2 furthest = new Vector2();
 		int distance = Integer.MIN_VALUE;
 		boolean anyMatches = false;
-		for(int yy = 0; yy < gameState.getMapLength(); yy++)
+		for(int yy = 0; yy < gameState.getMapHeight(); yy++)
 		{
 			for(int xx = 0; xx < gameState.getMapWidth(); xx++)
 			{
@@ -189,10 +421,33 @@ public final class GameUtility
 		return (anyMatches)? furthest : null;
 	}
 	
-	public final boolean isWithinStorm(int x, int y, int stormSize)
+	/**
+	 * Checks if the specified position is within the storm, given a storm size.
+	 * 
+	 * <p>
+	 * The current storm size can be retrieved by {@link GameState#getStormSize()} and the maximum storm size by {@link GameState#getStormMaxSize()}. 
+	 * The size of the storm is the amount of diagonal blocks from the map's edges.
+	 * </p>
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * @param x - a zero-based x-position
+	 * @param y - a zero-based y-position
+	 * @param stormSize - the size of the storm
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return true if the position is within the storm radius, false otherwise
+	 */
+	public final boolean isWithinStorm(int x, int y, int stormSize) throws OutOfBoundsException
 	{
+		if(gameState.isOutOfBounds(x, y))
+			throw new OutOfBoundsException(x, y);
+		
 		double minX = Math.min(x + 1, Math.abs(x - gameState.getMapWidth()));
-		double minY = Math.min(y + 1, Math.abs(y - gameState.getMapLength()));
+		double minY = Math.min(y + 1, Math.abs(y - gameState.getMapHeight()));
 		double distance = Math.min(minX, minY);
 		return distance <= stormSize;
 	}

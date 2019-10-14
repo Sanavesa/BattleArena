@@ -2,7 +2,7 @@ package arena.core;
 
 import javafx.scene.paint.Color;
 
-public final class Player extends Entity
+final class Player extends Entity
 {
 	static final int HEALTH_MAX = 5;
 	static final int HEALTH_START = 3;
