@@ -24,7 +24,7 @@ public class BattleArena extends Application
 	private static Class<? extends PlayerAI> p2Class;
 	
 	/**
-	 * Starts the arena application with the default sizes (20x20 map size) and 32 pixel size.
+	 * Starts the arena application with the default sizes (20x20 map size) and 24 pixel size.
 	 * The parameters are the classes of the players, in the format of: <code>YourClassName.class</code>.
 	 * 
 	 * <p>
@@ -39,7 +39,7 @@ public class BattleArena extends Application
 	 */
 	public static void startArena(Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
 	{
-		startArena(20, 20, 32, p1Class, p2Class);
+		startArena(20, 20, 24, p1Class, p2Class);
 	}
 	
 	/**
@@ -47,9 +47,9 @@ public class BattleArena extends Application
 	 * The parameters are the classes of the players, in the format of: <code>YourClassName.class</code>.
 	 * 
 	 * <p>
-	 * For example, the following code will start an arena game with RandomAI versus CowardAI at a map of size 20x20 and 32 pixels for each cell.
+	 * For example, the following code will start an arena game with RandomAI versus CowardAI at a map of size 20x20 and 24 pixels for each cell.
 	 * <pre>
-	 * BattleArena.startArena(20, 20, 32, RandomAI.class, CowardAI.class);
+	 * BattleArena.startArena(20, 20, 24, RandomAI.class, CowardAI.class);
 	 * </pre>
 	 * </p>
 	 * 
@@ -110,7 +110,12 @@ public class BattleArena extends Application
 		
 		stage.setScene(scene);
 		stage.setTitle("Battle Arena");
-		stage.setResizable(false);
+		stage.setMinWidth(492);
+		stage.setWidth(492);
+		stage.setMaxWidth(492);
+		stage.setMinHeight(760);
+		stage.setHeight(760);
+		stage.setMaxHeight(760);
 		stage.getIcons().add(new Image("res/icon.png"));
 		
 		stage.show();
