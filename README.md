@@ -38,4 +38,4 @@ A player can shoot in 4 directions: up, down, left, right. Projectiles can colli
 A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and a projectile. Placing a mine has a cooldown of 10 rounds; meaning, that it can only be placed once every 10 rounds.
 
 ## API
-For the complete API available to user, click here.
+For the complete API available to user, read the [API Link](API.md).
