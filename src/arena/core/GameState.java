@@ -41,9 +41,11 @@ public final class GameState
 	private Player otherPlayer;
 	private final Map map;
 	private final EntityType[][] visualMap;
+	private final Game game;
 	
-	GameState(Player player)
+	GameState(Game game, Player player)
 	{
+		this.game = game;
 		map = player.map;
 		this.player = player;
 		
@@ -552,5 +554,38 @@ public final class GameState
 	public final int getStormMaxSize()
 	{
 		return map.getStormMaxSize();
+	}
+	
+	/**
+	 * Returns the number of rounds before the next storm advancement.
+	 * 
+	 * @see #getRound()
+	 * 
+	 * @return number of rounds
+	 */
+	public final int getRoundsTillNextStormAdvance()
+	{
+		return game.getRoundsTillNextStormAdvance();
+	}
+	
+	/**
+	 * Returns the current round.
+	 * 
+	 * @return current round
+	 */
+	public final int getRound()
+	{
+		return game.getRound();
+	}
+	
+	/**
+	 * Returns true if the player can place a mine, false otherwise.
+	 * This is because each player can place at most 1 mine per game.
+	 * 
+	 * @return true if can place mine, false otherwise
+	 */
+	public final boolean canPlaceMine()
+	{
+		return !game.getPlayer1().hasPlacedMine();
 	}
 }

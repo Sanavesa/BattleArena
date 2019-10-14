@@ -12,7 +12,7 @@ final class Map
 	private final Set<Entity> entities;
 	private final Set<Entity> entitiesToRemove;
 	private int stormSize;
-	private final double stormCoverage = 0.3; // 0.3 is how much the storm can advance (0 none, 1 full map)
+	private final double stormCoverage = 0.5; // 0.5 is how much the storm can advance (0 none, 1 full map)
 	private final int stormMaxSize;
 	
 	Map(int width, int height)

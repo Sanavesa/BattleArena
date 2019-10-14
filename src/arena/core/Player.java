@@ -9,6 +9,8 @@ final class Player extends Entity
 	private int health = HEALTH_START;
 	private final String name;
 	private final Color color;
+	private boolean placedMine = false;
+	private int xScaleMultiplier = 1;
 	
 	Player(Map map, int x, int y, String name, Color color)
 	{
@@ -57,11 +59,13 @@ final class Player extends Entity
 	
 	final boolean moveLeft()
 	{
+		xScaleMultiplier = -1;
 		return move(getX() - 1, getY());
 	}
 	
 	final boolean moveRight()
 	{
+		xScaleMultiplier = 1;
 		return move(getX() + 1, getY());
 	}
 	
@@ -103,23 +107,31 @@ final class Player extends Entity
 	
 	final boolean placeMineLeft()
 	{
+		xScaleMultiplier = -1;
 		return placeMine(getX() - 1, getY());
 	}
 	
 	final boolean placeMineRight()
 	{
+		xScaleMultiplier = 1;
 		return placeMine(getX() + 1, getY());
 	}
 	
 	private boolean placeMine(int x, int y)
 	{
-		if(isDead())
+		if(isDead() || placedMine)
 			return false;
 		
 		Mine mine = map.addMine(x, y);
+		placedMine = true;
 		return mine != null;
 	}
 	
+	final boolean hasPlacedMine()
+	{
+		return placedMine;
+	}
+
 	final boolean shootUp()
 	{
 		return shoot(0, -1);
@@ -132,11 +144,13 @@ final class Player extends Entity
 	
 	final boolean shootLeft()
 	{
+		xScaleMultiplier = -1;
 		return shoot(-1, 0);
 	}
 	
 	final boolean shootRight()
 	{
+		xScaleMultiplier = 1;
 		return shoot(1, 0);
 	}
 	
@@ -179,9 +193,13 @@ final class Player extends Entity
 		return color;
 	}
 	
+	final int getXScaleMultiplier()
+	{
+		return xScaleMultiplier;
+	}
+
 	@Override
-	public
-	final String toString()
+	public final String toString()
 	{
 		return getName();
 	}

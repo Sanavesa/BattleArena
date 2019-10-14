@@ -1,288 +1,193 @@
 package arena.core;
 
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Separator;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.lang.reflect.InvocationTargetException;
-
-import arena.example.ChasingAI;
-import arena.example.CowardAI;
-import arena.example.RandomAI;
-
-final class ArenaGUI extends AnchorPane
+final class ArenaGUI extends BorderPane
 {
-	private final Map map;
-	private Player player1, player2;
-	private PlayerAI playerAI1 = new CowardAI();
-	private PlayerAI playerAI2 = new ChasingAI();
-	private VisualEntity[][] visualEntities;
-	private Timeline timeline;
-	private Timeline timeline2;
 	
-	public ArenaGUI(int mapWidth, int mapHeight, int pixelSize, Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
+	private Button btnPlayNPause;
+	private Button btnGenerate;
+	private ImageView imageViewPlayNPause;
+	private ImageView imageViewGenerate;
+	
+	private GridPane tilesGridPane;
+	
+	private final ArenaInfoPanel arenaInfoPanel;
+	
+	private VBox top;
+	
+	private Tile[][] tiles;
+	private Timeline gameLoopTimeline;
+	private ImageDatabase imageDatabase;
+	private Game game;
+	public static final double SECS_PER_TICK = 0.25;
+	
+ 	public ArenaGUI(Stage stage, int mapWidth, int mapHeight, int pixelSize, Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
 	{
 		super();
 		
-		//Creating ai
-		try
-		{
-			playerAI1 = p1Class.getDeclaredConstructor().newInstance();
-		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-		{
-			e1.printStackTrace();
-			playerAI1 = new RandomAI();
-		}
+		imageDatabase = new ImageDatabase();
+		game = new Game(mapWidth, mapHeight, p1Class, p2Class);
 		
-		try
-		{
-			playerAI2 = p2Class.getDeclaredConstructor().newInstance();
-		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1)
-		{
-			e1.printStackTrace();
-			playerAI2 = new RandomAI();
-		}
+		arenaInfoPanel = new ArenaInfoPanel(stage, game, imageDatabase);
 		
-		map = new Map(mapWidth, mapHeight);
+		top = new VBox(10);
+		setTop(top);
 		
-		GridPane gridPane = new GridPane();
-		visualEntities = new VisualEntity[map.getWidth()][map.getHeight()];
-		for(int y = 0; y < map.getHeight(); y++)
-		{
-			for(int x = 0; x < map.getWidth(); x++)
-			{
-				Entity entity = map.getEntity(x, y);
-				VisualEntity visualEntity = new VisualEntity(entity, pixelSize);
-				visualEntities[x][y] = visualEntity;
-				gridPane.add(visualEntity, x, y);
-			}
-		}
-		getChildren().add(gridPane);
-		gridPane.setPadding(new Insets(50, 20, 20, 20));
+		initializeTiles(pixelSize);
+		initializeControlButtons();
 		
-		Button btnGenerate = new Button("Generate");
-		Button btnPlay = new Button("Play");
-		Button btnStop = new Button("Stop");
+		top.getChildren().add(arenaInfoPanel);
 		
-		btnGenerate.relocate(50, 0);
-		btnGenerate.setOnAction(e ->
-		{
-			if(timeline != null)
-			{
-				timeline.stop();
-				timeline = null;
-			}
-			
-			if(timeline2 != null)
-			{
-				timeline2.stop();
-				timeline2 = null;
-			}
-			
-			map.clear();
-			map.generateWalls(0.15);
-			map.generateHealthPacks(0.03);
-			addPlayers();
-			redisplay();
-			
-			btnPlay.setDisable(false);
-			btnStop.setDisable(true);
-		});
-		
-		btnPlay.relocate(150, 0);
-		btnPlay.setDisable(true);
-		btnPlay.setOnAction(e ->
-		{
-			timeline = new Timeline();
-			timeline2 = new Timeline();
-			
-			timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), e2 ->
-			{
-				playerAI1.playTurn(player1);
-				playerAI2.playTurn(player2);
-				map.tick();
-				redisplay();
-				
-				if(player1.isDead() || player2.isDead())
-				{
-					if(timeline != null)
-					{
-						timeline.stop();
-						timeline = null;
-					}
-					
-					if(timeline2 != null)
-					{
-						timeline2.stop();
-						timeline2 = null;
-					}
-				}
-			}));
-			
-			timeline2.getKeyFrames().add(new KeyFrame(Duration.seconds(2.0), e2 ->
-			{
-				map.advanceStorm();
-				redisplay();
-			}));
-			
-			
-//			timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e2 ->
-//			{
-//				playerAI1.playTurn(player1);
-//				map.tick();
-//				redisplay();
-//			}));
-//			
-//			timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(2), e2 ->
-//			{
-//				playerAI2.playTurn(player2);
-//				map.tick();
-//				redisplay();
-//			}));
-			
-			timeline.setCycleCount(Timeline.INDEFINITE);
-			timeline.play();
-			
-			timeline2.setCycleCount(Timeline.INDEFINITE);
-			timeline2.play();
-			
-			btnPlay.setDisable(true);
-			btnStop.setDisable(false);
-		});
-		
-		btnStop.relocate(250, 0);
-		btnStop.setDisable(true);
-		btnStop.setOnAction(e ->
-		{
-			if(timeline != null)
-			{
-				timeline.stop();
-				timeline = null;
-			}
-			
-			if(timeline2 != null)
-			{
-				timeline2.stop();
-				timeline2 = null;
-			}
-			
-			btnStop.setDisable(true);
-			btnPlay.setDisable(false);
-		});
-		
-		getChildren().addAll(btnGenerate, btnPlay, btnStop);
+		generate();
 	}
-	
+ 	
 	private void redisplay()
 	{
+		for(int y = 0; y < game.getMap().getHeight(); y++)
+		{
+			for(int x = 0; x < game.getMap().getWidth(); x++)
+			{
+				Entity entity = game.getMap().getEntity(x, y);
+				tiles[x][y].setEntity(entity);
+			}
+		}
+		
+		arenaInfoPanel.onRedisplay();
+	}
+	
+	private void initializeControlButtons()
+	{
+		// Generate
+		btnGenerate = new Button();
+		btnGenerate.setTooltip(new Tooltip("Generates a new map."));
+		imageViewGenerate = new ImageView(imageDatabase.replay);
+		imageViewGenerate.setFitWidth(32);
+		imageViewGenerate.setFitHeight(32);
+		btnGenerate.setGraphic(imageViewGenerate);
+		btnGenerate.relocate(50, 0);
+		btnGenerate.setOnAction(e -> onGenerateClicked());
+		
+		// Play & Pause
+		btnPlayNPause = new Button();
+		btnPlayNPause.setTooltip(new Tooltip("Plays or pauses the simulation."));
+		imageViewPlayNPause = new ImageView(imageDatabase.play);
+		imageViewPlayNPause.setFitWidth(32);
+		imageViewPlayNPause.setFitHeight(32);
+		btnPlayNPause.setGraphic(imageViewPlayNPause);
+		btnPlayNPause.relocate(150, 0);
+		btnPlayNPause.setOnAction(e -> onPlayNPauseClicked());
+		
+		HBox hBox = new HBox(20, createSeparator(), btnGenerate, createSeparator(), btnPlayNPause, createSeparator());
+		hBox.setPadding(new Insets(10, 0, 10, 0));
+		top.getChildren().add(hBox);
+	}
+	
+	private Separator createSeparator()
+	{
+		Separator separator = new Separator(Orientation.HORIZONTAL);
+		separator.setVisible(false);
+		HBox.setHgrow(separator, Priority.ALWAYS);
+		return separator;
+	}
+	
+	private void initializeTiles(int pixelSize)
+	{
+		tilesGridPane = new GridPane();
+		Map map = game.getMap();
+		
+		tiles = new Tile[map.getWidth()][map.getHeight()];
 		for(int y = 0; y < map.getHeight(); y++)
 		{
 			for(int x = 0; x < map.getWidth(); x++)
 			{
 				Entity entity = map.getEntity(x, y);
-				visualEntities[x][y].setEntity(entity);
-			}
-		}
-	}
-	
-	private void addPlayers()
-	{
-		int x = (int) (Math.random() * map.getWidth());
-		int y = (int) (Math.random() * map.getHeight());
-		while(!map.canAddPlayer(x, y))
-		{
-			x = (int) (Math.random() * map.getWidth());
-			y = (int) (Math.random() * map.getHeight());	
-		}
-		player1 = map.addPlayer(x, y, "P1", Color.BLUE);
-		player2 = map.addPlayer(map.getWidth() - x - 1, y, "P2", Color.VIOLET);
-	}
-}
-
-class VisualEntity extends StackPane
-{
-	private Entity entity = null;
-	private Rectangle rectangle;
-	private Label label;
-	
-	public VisualEntity(Entity entity, int size)
-	{
-		setMinSize(size, size);
-		setMaxSize(size, size);
-		setPrefSize(size, size);
-		rectangle = new Rectangle(size, size);
-//		rectangle = new Rectangle(size-2, size-2);
-		label = new Label("");
-		label.setTextFill(Color.WHITE);
-		
-		getChildren().addAll(rectangle, label);
-//		setStyle("-fx-border-color: black; -fx-border-width: 1;");
-		setEntity(entity);
-	}
-	
-	final void update()
-	{
-		Color color = Color.PURPLE;
-		String text = "";
-		
-		if(entity == null)
-		{
-			color = Color.GRAY;
-		}
-		else
-		{
-			if(entity instanceof Player)
-			{
-				Player player = (Player)entity;
-				color = player.getColor();
-				text = player.getName() + "-" + String.valueOf(player.getHealth());
-			}
-			else if(entity instanceof Wall)
-			{
-				color = Color.BLACK;
-			}
-			else if(entity instanceof Storm)
-			{
-				color = Color.rgb(255, 255, 0, 0.25);
-//				color = Color.ORANGE;
-			}
-			else if(entity instanceof Projectile)
-			{
-				color = ((Projectile) entity).color;
-//				color = Color.YELLOW;
-			}
-			else if(entity instanceof Mine)
-			{
-				color = Color.RED;
-			}
-			else if(entity instanceof HealthPack)
-			{
-				color = Color.GREEN;
+				Tile tile = new Tile(imageDatabase, entity, pixelSize);
+				tiles[x][y] = tile;
+				tilesGridPane.add(tile, x, y);
 			}
 		}
 		
-		rectangle.setFill(color);
-		label.setText(text);
+		setBottom(tilesGridPane);
 	}
-
-	final Entity getEntity()
+	
+	private void onGenerateClicked()
 	{
-		return entity;
+		generate();
 	}
-
-	final void setEntity(Entity entity)
+	
+	private void onPlayNPauseClicked()
 	{
-		this.entity = entity;
-		update();
+		if(isRunning()) // Running, so pause
+		{
+			stopGameLoop();
+		}
+		else // Not running, so start
+		{
+			startGameLoop();
+		}
+	}
+	
+	private void stopGameLoop()
+	{
+		if(gameLoopTimeline != null)
+		{
+			gameLoopTimeline.stop();
+			gameLoopTimeline = null;
+		}
+		
+		imageViewPlayNPause.setImage(imageDatabase.play);
+	}
+	
+	private void startGameLoop()
+	{
+		gameLoopTimeline = new Timeline();
+		
+		gameLoopTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(SECS_PER_TICK), e ->
+		{
+			game.tick();
+			redisplay();
+			
+			if(game.isGameOver())
+			{
+				stopGameLoop();
+			}
+		}));
+		
+		gameLoopTimeline.setCycleCount(Timeline.INDEFINITE);
+		gameLoopTimeline.play();
+		
+		imageViewPlayNPause.setImage(imageDatabase.pause);
+	}
+	
+	private void generate()
+	{
+		stopGameLoop();
+		game.generateMap();
+		game.setRound(0);
+		redisplay();
+	}
+	
+	private boolean isRunning()
+	{
+		if(gameLoopTimeline == null)
+			return false;
+		
+		return gameLoopTimeline.getStatus() == Status.RUNNING;
 	}
 }

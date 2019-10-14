@@ -103,8 +103,10 @@ public class BattleArena extends Application
 	@Override
 	public void start(Stage stage) throws Exception
 	{
-		ArenaGUI pane = new ArenaGUI(mapWidth, mapHeight, pixelSize, p1Class, p2Class);
+		ArenaGUI pane = new ArenaGUI(stage, mapWidth, mapHeight, pixelSize, p1Class, p2Class);
+		
 		Scene scene = new Scene(pane);
+		scene.getStylesheets().add("/res/style.css");
 		
 		stage.setScene(scene);
 		stage.setTitle("Battle Arena");

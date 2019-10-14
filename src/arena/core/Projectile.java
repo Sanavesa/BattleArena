@@ -7,7 +7,7 @@ final class Projectile extends Entity
 	private final int speedX;
 	private final int speedY;
 	private final Player player;
-	public final Color color;
+	private final Color color;
 	
 	Projectile(Map map, int x, int y, int speedX, int speedY, Player player)
 	{
@@ -15,7 +15,7 @@ final class Projectile extends Entity
 		this.player = player;
 		this.speedX = speedX;
 		this.speedY = speedY;
-		color = player.getColor().interpolate(Color.WHITE, 0.5);
+		color = player.getColor();
 	}
 	
 	boolean isOwner(Player player)
@@ -38,6 +38,11 @@ final class Projectile extends Entity
 		}
 	}
 	
+	final Color getColor()
+	{
+		return color;
+	}
+
 	@Override
 	protected void onCollided(HealthPack healthPack)
 	{
