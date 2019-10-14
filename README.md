@@ -1,5 +1,7 @@
 # BattleArena
  
+ ![Image of Battle Arena](https://cdn.discordapp.com/attachments/503002454418259968/633374772906033191/Screen_Shot_2019-10-14_at_2.33.14_PM.png)
+ 
 ## Introduction
 
 Battle Arena is a deathmatch game where two players fight to the death. Users create their own AI agent that can participate in the competition of ERAU Artificial Intelligence Club 2019.
@@ -36,3 +38,4 @@ A player can shoot in 4 directions: up, down, left, right. Projectiles can colli
 A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and a projectile. Placing a mine has a cooldown of 10 rounds; meaning, that it can only be placed once every 10 rounds.
 
 ## API
+For the complete API available to user, click here.
