@@ -23,6 +23,8 @@ Every 10 rounds, the lava storm will advance by 1 block. The storm is the number
 If a player comes into contact with a storm, they will die instantly and horribly. We wall want our wizards to go to heaven, don't we? But <i>noooo</i>, they die a fiery death and have no after-life. :(
 
 ### Health
+![Image of Player Health](https://cdn.discordapp.com/attachments/503002454418259968/633381253432999945/pic2.PNG)
+
 Health represents the amount of damage that a player can take before dying. When a player comes into contact with a projectile or a mine, they lose 1 health point. When their health reaches 0, they die an honorable death. The player starts with 3 health points, and can reach a maximum of 5 health points via health packs.
 
 #### Health Packs
@@ -37,6 +39,8 @@ An action is what a AI agent can perform in a single round. Only 1 action can be
 A player can move in 4 directions: up, down, left, right. They can only move to a cell that doesn't contain a wall.
 
 #### Shooting
+![Image of Shooting](https://cdn.discordapp.com/attachments/503002454418259968/633380728826232840/piccccccccccccc.PNG)
+
 A player can shoot in 4 directions: up, down, left, right. Projectiles can collide with other projectiles and mines, destroying both in the process. Projectiles will move 1 unit in the specified direction per round, matching the player's movement speed. Also, if a projectile comes into contact with a health pack, the shooter will gain +1 health point.
 
 #### Placing Mines
