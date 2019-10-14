@@ -41,12 +41,14 @@ A player can move in 4 directions: up, down, left, right. They can only move to 
 #### Shooting
 ![Image of Shooting](https://cdn.discordapp.com/attachments/503002454418259968/633380728826232840/piccccccccccccc.PNG)
 
-A player can shoot in 4 directions: up, down, left, right. Projectiles can collide with other projectiles and mines, destroying both in the process. Projectiles will move 1 unit in the specified direction per round, matching the player's movement speed. Also, if a projectile comes into contact with a health pack, the shooter will gain +1 health point.
+A player can shoot in 4 directions: up, down, left, right. Projectiles can collide with other hostile projectiles and mines, destroying both in the process. Projectiles will move 1 unit in the specified direction per round, matching the player's movement speed. Also, if a projectile comes into contact with a health pack, the shooter will gain +1 health point.
 
 #### Placing Mines
 ![Image of Mine](https://cdn.discordapp.com/attachments/503002454418259968/633378425783975937/Screen_Shot_2019-10-14_at_2.59.35_PM.png)
 
-A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and a projectile. Placing a mine has a cooldown of 10 rounds; meaning, that it can only be placed once every 10 rounds.
+A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and any projectile. Placing a mine has a cooldown of 10 rounds; meaning, that it can only be placed once every 10 rounds.
 
 ## API
 For the complete API available to user, head to [API Link](https://sanavesa.github.io).
+
+![Gif of Gameplay](https://gyazo.com/2abe01f0f72c68019883cb91073574c2)
