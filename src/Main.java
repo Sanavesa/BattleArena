@@ -1,5 +1,5 @@
+import arena.agents.*;
 import arena.core.*;
-import arena.example.*;
 
 public class Main
 {

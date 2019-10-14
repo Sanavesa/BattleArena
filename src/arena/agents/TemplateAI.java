@@ -1,4 +1,4 @@
-package arena.example;
+package arena.agents;
 
 import arena.core.*;
 

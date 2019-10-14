@@ -43,27 +43,12 @@ public final class GameState
 	private final EntityType[][] visualMap;
 	private final Game game;
 	
-	GameState(Game game, Player player)
+	GameState(Game game, Player player, Player otherPlayer)
 	{
 		this.game = game;
 		map = player.map;
 		this.player = player;
-		
-		for(int y = 0; y < map.getHeight(); y++)
-		{
-			for(int x = 0; x < map.getWidth(); x++)
-			{
-				Entity entity = map.getEntity(x, y);
-				if(entity instanceof Player)
-				{
-					if(!entity.equals(player))
-					{
-						otherPlayer = (Player) entity;
-						break;
-					}
-				}
-			}
-		}
+		this.otherPlayer = otherPlayer;
 		
 		visualMap = new EntityType[map.getWidth()][map.getHeight()];
 		constructVisualMap();

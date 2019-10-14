@@ -1,6 +1,6 @@
 package arena.core;
 
-import arena.example.RandomAI;
+import arena.agents.RandomAI;
 import javafx.scene.paint.Color;
 
 final class Game
@@ -9,6 +9,8 @@ final class Game
 	private Player player1, player2;
 	private PlayerAI agent1, agent2;
 	private int round;
+	private final Class<? extends PlayerAI> p1Class;
+	private final Class<? extends PlayerAI> p2Class;
 	
 	public static final int ROUND_PER_STORM_ADVANCE = 10;
 	public static final double MAP_WALL_DENSITY = 0.15;
@@ -16,11 +18,12 @@ final class Game
 	
 	public Game(int mapWidth, int mapHeight, Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
 	{
-		createAgents(p1Class, p2Class);
+		this.p1Class = p1Class;
+		this.p2Class = p2Class;
 		map = new Map(mapWidth, mapHeight);
 	}
 	
-	private final void createAgents(Class<? extends PlayerAI> p1Class, Class<? extends PlayerAI> p2Class)
+	private final void createAgents()
 	{
 		//Creating AI from the specified classes
 		try
@@ -48,6 +51,7 @@ final class Game
 		map.clear();
 		map.generateWalls(MAP_WALL_DENSITY);
 		map.generateHealthPacks(MAP_HEALTH_PACK_DENSITY);
+		createAgents();
 		generatePlayers();
 	}
 	
@@ -61,8 +65,8 @@ final class Game
 			x = (int) (Math.random() * map.getWidth());
 			y = (int) (Math.random() * map.getHeight());	
 		}
-		player1 = map.addPlayer(x, y, "Player1", Color.BLUE);
-		player2 = map.addPlayer(map.getWidth() - x - 1, y, "Player2", Color.RED);
+		player1 = map.addPlayer(x, y, "P1(" + agent1.getClass().getSimpleName() + ")", Color.BLUE);
+		player2 = map.addPlayer(map.getWidth() - x - 1, y, "P2(" + agent2.getClass().getSimpleName() + ")", Color.RED);
 	}
 	
 	public final boolean isGameOver()
@@ -73,8 +77,8 @@ final class Game
 	public final void tick()
 	{
 		round++;
-		agent1.playRound(this, player1);
-		agent2.playRound(this, player2);
+		agent1.playRound(this, player1, player2);
+		agent2.playRound(this, player2, player1);
 		map.tick();
 		if(round % ROUND_PER_STORM_ADVANCE == 0)
 		{

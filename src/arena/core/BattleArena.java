@@ -1,6 +1,6 @@
 package arena.core;
 
-import arena.example.RandomAI;
+import arena.agents.RandomAI;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

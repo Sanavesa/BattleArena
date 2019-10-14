@@ -45,12 +45,12 @@ public abstract class PlayerAI
 	 */
 	protected abstract Action getNextAction(GameState gameState, GameUtility gameUtility);
 	
-	final void playRound(Game game, Player player)
+	final void playRound(Game game, Player player, Player otherPlayer)
 	{
 		if(player.isDead() || player.isDestroyed())
 			return;
 		
-		GameState gameState = new GameState(game, player);
+		GameState gameState = new GameState(game, player, otherPlayer);
 		GameUtility gameUtility = new GameUtility(gameState);
 		
 		Action action = getNextAction(gameState, gameUtility);

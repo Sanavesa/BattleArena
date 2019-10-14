@@ -1,4 +1,4 @@
-package arena.example;
+package arena.agents;
 
 import arena.core.Action;
 import arena.core.GameState;

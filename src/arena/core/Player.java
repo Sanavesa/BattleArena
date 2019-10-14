@@ -120,7 +120,7 @@ final class Player extends Entity
 	
 	private boolean placeMine(int x, int y)
 	{
-		if(isDead() || canPlaceMine())
+		if(isDead() || !canPlaceMine())
 			return false;
 		
 		Mine mine = map.addMine(x, y);
