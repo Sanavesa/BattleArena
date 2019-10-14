@@ -7,6 +7,17 @@ import javafx.stage.Stage;
 
 import arena.agents.RandomAI;
 
+/**
+ * The <code>BattleArena</code> class contains the JavaFX application and all necessary dependencies.
+ * <p>
+ * To start a match with SimpleAI vs RandomAI, simply call:
+ * </p>
+ * <pre>
+ * BattleArena.startArena(SimpleAI.class, RandomAI.class);
+ * </pre>
+ *  
+ * @author ERAU AI Club
+ */
 public class BattleArena extends Application
 {
 	// The number of columns in the map
@@ -30,10 +41,10 @@ public class BattleArena extends Application
 	 * 
 	 * <p>
 	 * For example, the following code will start an arena game with RandomAI versus CowardAI.
+	 * </p>
 	 * <pre>
 	 * BattleArena.startArena(RandomAI.class, CowardAI.class);
 	 * </pre>
-	 * </p>
 	 * 
 	 * @param p1Class - the 1st player's class
 	 * @param p2Class - the 2nd player's class 
@@ -49,10 +60,10 @@ public class BattleArena extends Application
 	 * 
 	 * <p>
 	 * For example, the following code will start an arena game with RandomAI versus CowardAI at a map of size 20x20 and 24 pixels for each cell.
+	 * </p>
 	 * <pre>
 	 * BattleArena.startArena(20, 20, 24, RandomAI.class, CowardAI.class);
 	 * </pre>
-	 * </p>
 	 * 
 	 * @param mapWidth - the width of the map (8 is minimum)
 	 * @param mapHeight - the height of the map (8 is minimum)

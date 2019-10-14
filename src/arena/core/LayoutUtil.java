@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-public class LayoutUtil
+class LayoutUtil
 {
 	public static void fixateX(Region relative, Region region, double positionPercentage, double anchorPercentage, double padding)
 	{

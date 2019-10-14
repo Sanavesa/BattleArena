@@ -7,6 +7,7 @@ package arena.core;
  * 
  * <p>
  * Possible actions are:
+ * </p>
  * <ul>
  * <li>{@link #NoAction}</li>
  * <li>{@link #MoveUp}</li>
@@ -22,7 +23,6 @@ package arena.core;
  * <li>{@link #PlaceMineLeft}</li>
  * <li>{@link #PlaceMineRight}</li>
  * </ul>
- * </p>
  * 
  * @author ERAU AI Club
  */
