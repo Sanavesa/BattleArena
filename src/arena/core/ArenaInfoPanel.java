@@ -17,14 +17,14 @@ final class ArenaInfoPanel extends AnchorPane
 	private final Label p1Name;
 	private final HBox p1SpriteContainer;
 	private final ImageView p1Sprite;
-	private final Label p1Health;
 	private final ColorAdjust p1ColorAdjust;
+	private final HealthPanel p1HealthPanel;
 	
 	private final Label p2Name;
 	private final HBox p2SpriteContainer;
 	private final ImageView p2Sprite;
-	private final Label p2Health;
 	private final ColorAdjust p2ColorAdjust;
+	private final HealthPanel p2HealthPanel;
 	
 	private final Label roundLabel;
 	private final Label stormRoundLabel;
@@ -43,13 +43,13 @@ final class ArenaInfoPanel extends AnchorPane
 		p1Name = new Label();
 		p1Sprite = new ImageView();
 		p1SpriteContainer = new HBox(p1Sprite);
-		p1Health = new Label();
+		p1HealthPanel = new HealthPanel(imageDatabase, 24);
 		p1ColorAdjust = new ColorAdjust();
 		
 		p2Name = new Label();
 		p2Sprite = new ImageView();
 		p2SpriteContainer = new HBox(p2Sprite);
-		p2Health = new Label();
+		p2HealthPanel = new HealthPanel(imageDatabase, 24);
 		p2ColorAdjust = new ColorAdjust();
 		
 		roundLabel = new Label();
@@ -62,15 +62,15 @@ final class ArenaInfoPanel extends AnchorPane
 	private void setup()
 	{
 		// Add all
-		getChildren().addAll(p1Name, p1SpriteContainer, p1Health, p2Name, p2SpriteContainer, p2Health, roundLabel, stormRoundLabel, stormSizeLabel);
+		getChildren().addAll(p1Name, p1SpriteContainer, p1HealthPanel, p2Name, p2SpriteContainer, p2HealthPanel, roundLabel, stormRoundLabel, stormSizeLabel);
 		
 		// Setup p1
 		LayoutUtil.fixateX(stage, p1Name, 0.08, 0, 0);
 		LayoutUtil.fixateY(stage, p1Name, 0.04, 1, 0);
 		LayoutUtil.fixateX(stage, p1SpriteContainer, 0.08, 0, 0);
 		LayoutUtil.fixateY(stage, p1SpriteContainer, 0.165, 1, 0);
-		LayoutUtil.fixateX(stage, p1Health, 0.17, 0.5, 0);
-		LayoutUtil.fixateY(stage, p1Health, 0.205, 1, 0);
+		LayoutUtil.fixateX(stage, p1HealthPanel, 0.17, 0.5, 0);
+		LayoutUtil.fixateY(stage, p1HealthPanel, 0.205, 1, 0);
 		p1Sprite.setImage(imageDatabase.player);
 		p1Sprite.setScaleX(1);
 		p1Sprite.setEffect(p1ColorAdjust);
@@ -84,8 +84,8 @@ final class ArenaInfoPanel extends AnchorPane
 		LayoutUtil.fixateY(stage, p2Name, 0.04, 1, 0);
 		LayoutUtil.fixateX(stage, p2SpriteContainer, 1-0.08, 1, 0);
 		LayoutUtil.fixateY(stage, p2SpriteContainer, 0.165, 1, 0);
-		LayoutUtil.fixateX(stage, p2Health, 1-0.17, 0.5, 0);
-		LayoutUtil.fixateY(stage, p2Health, 0.205, 1, 0);
+		LayoutUtil.fixateX(stage, p2HealthPanel, 1-0.17, 0.5, 0);
+		LayoutUtil.fixateY(stage, p2HealthPanel, 0.205, 1, 0);
 		p2Sprite.setImage(imageDatabase.player);
 		p2Sprite.setScaleX(-1);
 		p2Sprite.setEffect(p2ColorAdjust);
@@ -109,13 +109,13 @@ final class ArenaInfoPanel extends AnchorPane
 	{
 		// Update p1
 		p1Name.setText(game.getPlayer1().getName());
-		p1Health.setText("HP: " + game.getPlayer1().getHealth() + "/" + Player.HEALTH_MAX);
+		p1HealthPanel.update(game.getPlayer1().getHealth());
 		double p1Hue = -1+2*(((game.getPlayer1().getColor().getHue() + 180) % 360)/360);
 		p1ColorAdjust.setHue(p1Hue);
 		
 		// Update p2
 		p2Name.setText(game.getPlayer2().getName());
-		p2Health.setText("HP: " + game.getPlayer2().getHealth() + "/" + Player.HEALTH_MAX);
+		p2HealthPanel.update(game.getPlayer2().getHealth());
 		double p2Hue = -1+2*(((game.getPlayer2().getColor().getHue() + 180) % 360)/360);
 		p2ColorAdjust.setHue(p2Hue);
 		

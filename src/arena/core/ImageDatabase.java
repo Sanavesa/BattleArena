@@ -12,6 +12,8 @@ final class ImageDatabase
 	public final Image player = new Image("/res/Player.png");
 	public final Image projectile = new Image("/res/Projectile.png");
 	public final Image storm = new Image("/res/Storm.png");
+	public final Image heartFilled = new Image("res/Heart_Fill.png");
+	public final Image heartEmpty = new Image("res/Heart_Empty.png");
 	
 	// UI-related images
 	public final Image play = new Image("/res/Play.png");
