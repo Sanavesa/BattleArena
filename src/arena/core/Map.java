@@ -1,6 +1,9 @@
 package arena.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javafx.scene.paint.Color;
@@ -11,6 +14,7 @@ final class Map
 	private final int height;
 	private final Set<Entity> entities;
 	private final Set<Entity> entitiesToRemove;
+	private final List<Player> players;
 	private int stormSize;
 	private final double stormCoverage = 0.65; // 0.65 is how much the storm can advance (0 none, 1 full map)
 	private final int stormMaxSize;
@@ -27,6 +31,7 @@ final class Map
 		this.height = height;
 		entities = new HashSet<>();
 		entitiesToRemove = new HashSet<>();
+		players = new ArrayList<>();
 		stormSize = 0;
 		stormMaxSize = (int) Math.max(1, (int)Math.sqrt(width * height / 2) * stormCoverage);
 	}
@@ -35,6 +40,7 @@ final class Map
 	{
 		entitiesToRemove.clear();
 		entities.clear();
+		players.clear();
 		stormSize = 0;
 	}
 	
@@ -113,6 +119,8 @@ final class Map
 		
 		Player player = new Player(this, x, y, name, color);
 		entities.add(player);
+		players.add(player);
+		
 		return player;
 	}
 	
@@ -234,6 +242,12 @@ final class Map
 		if(!isWithinBounds(x, y))
 			return null;
 		
+		for(Player player : players)
+		{
+			if(player.getX() == x && player.getY() == y)
+				return player;
+		}
+		
 		for(Entity entity : entities)
 		{
 			if(entity.getX() == x && entity.getY() == y)
@@ -246,6 +260,20 @@ final class Map
 	final void destroy(Entity entity)
 	{
 		entitiesToRemove.add(entity);
+		
+		if(entity instanceof Player)
+		{
+			Iterator<Player> iterator = players.iterator();
+			while(iterator.hasNext())
+			{
+				Player next = iterator.next();
+				if(next.equals(entity))
+				{
+					iterator.remove();
+					break;
+				}
+			}
+		}
 	}
 	
 	private final void checkCollisions()

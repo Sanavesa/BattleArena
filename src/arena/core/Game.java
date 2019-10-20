@@ -65,8 +65,8 @@ final class Game
 			x = (int) (Math.random() * map.getWidth());
 			y = (int) (Math.random() * map.getHeight());	
 		}
-		player1 = map.addPlayer(x, y, "P1(" + agent1.getClass().getSimpleName() + ")", Color.BLUE);
-		player2 = map.addPlayer(map.getWidth() - x - 1, y, "P2(" + agent2.getClass().getSimpleName() + ")", Color.RED);
+		player1 = map.addPlayer(x, y, "P1 - " + agent1.getClass().getSimpleName(), Color.BLUE);
+		player2 = map.addPlayer(map.getWidth() - x - 1, y, agent2.getClass().getSimpleName() + " - P2", Color.RED);
 	}
 	
 	public final boolean isGameOver()
@@ -76,6 +76,7 @@ final class Game
 	
 	public final void tick()
 	{
+		System.out.println();
 		round++;
 		agent1.playRound(this, player1, player2);
 		agent2.playRound(this, player2, player1);
