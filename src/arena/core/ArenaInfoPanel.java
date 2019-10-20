@@ -69,7 +69,7 @@ final class ArenaInfoPanel extends AnchorPane
 		LayoutUtil.fixateY(stage, p1Name, 0.04, 1, 0);
 		LayoutUtil.fixateX(stage, p1SpriteContainer, 0.08, 0, 0);
 		LayoutUtil.fixateY(stage, p1SpriteContainer, 0.165, 1, 0);
-		LayoutUtil.fixateX(stage, p1HealthPanel, 0.17, 0.5, 0);
+		LayoutUtil.fixateX(stage, p1HealthPanel, 0.18, 0.5, 0);
 		LayoutUtil.fixateY(stage, p1HealthPanel, 0.205, 1, 0);
 		p1Sprite.setImage(imageDatabase.player);
 		p1Sprite.setScaleX(1);
@@ -80,11 +80,11 @@ final class ArenaInfoPanel extends AnchorPane
 		p1SpriteContainer.setPadding(new Insets(10));
 		
 		// Setup p2
-		LayoutUtil.fixateX(stage, p2Name, 1-0.08, 1, 0);
+		LayoutUtil.fixateX(stage, p2Name, 1-0.09, 1, 0);
 		LayoutUtil.fixateY(stage, p2Name, 0.04, 1, 0);
-		LayoutUtil.fixateX(stage, p2SpriteContainer, 1-0.08, 1, 0);
+		LayoutUtil.fixateX(stage, p2SpriteContainer, 1-0.09, 1, 0);
 		LayoutUtil.fixateY(stage, p2SpriteContainer, 0.165, 1, 0);
-		LayoutUtil.fixateX(stage, p2HealthPanel, 1-0.17, 0.5, 0);
+		LayoutUtil.fixateX(stage, p2HealthPanel, 1-0.19, 0.5, 0);
 		LayoutUtil.fixateY(stage, p2HealthPanel, 0.205, 1, 0);
 		p2Sprite.setImage(imageDatabase.player);
 		p2Sprite.setScaleX(-1);
