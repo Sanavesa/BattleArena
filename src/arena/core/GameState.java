@@ -592,7 +592,7 @@ public final class GameState
 	 */
 	public final int getCurrentShootCooldown()
 	{
-		return game.getPlayer1().getPlaceMineCooldown();
+		return game.getPlayer1().getShootCooldown();
 	}
 	
 	/**
