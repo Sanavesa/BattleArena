@@ -252,6 +252,85 @@ public final class GameUtility
 	}
 	
 	/**
+	 * Returns an action that shoots a projectile to the specified location.
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * <p>
+	 * Note: The destination position must share either the x or the y position with the player. If this isn't true, the method will return {@link Action#NoAction}.
+	 * </p>
+	 * 
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return an action to shoot a projectile to the destination location.
+	 */
+	public final Action shootTowards(int destinationX, int destinationY) throws OutOfBoundsException
+	{
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
+		
+		int startX = gameState.getPlayerX();
+		int startY = gameState.getPlayerY();
+		
+		if(destinationX > startX)
+			return Action.ShootRight;
+		else if(destinationX < startX)
+			return Action.ShootLeft;
+		else if(destinationY > startY)
+			return Action.ShootDown;
+		else if(destinationY < startY)
+			return Action.ShootUp;
+		else
+			return Action.NoAction;
+	}
+	
+	/**
+	 * Returns an action that places a mine towards the specified location. Will return {@link Action#NoAction} if the player cannot place a mine due to its cooldown.
+	 * 
+	 * <p>
+	 * The position is zero-based, meaning the the minimum coordinate is <code>(0, 0)</code> (top-left) and the maximum coordinate is <code>({@link GameState#getMapWidth()}-1, {@link GameState#getMapHeight()}-1)</code> (bottom-right).
+	 * </p>
+	 * 
+	 * <p>
+	 * Note: The destination position must share either the x or the y position with the player. If this isn't true, the method will return {@link Action#NoAction}.
+	 * </p>
+	 * 
+	 * @param destinationX - the destination zero-based x-position
+	 * @param destinationY - the destination zero-based y-position
+	 * 
+	 * @throws OutOfBoundsException when the position is out of bounds
+	 * 
+	 * @return an action to place a mine towards the destination location.
+	 */
+	public final Action placeMineTowards(int destinationX, int destinationY) throws OutOfBoundsException
+	{
+		if(gameState.isOutOfBounds(destinationX, destinationY))
+			throw new OutOfBoundsException(destinationX, destinationY);
+
+		if(!gameState.canPlaceMine())
+			return Action.NoAction;
+		
+		int startX = gameState.getPlayerX();
+		int startY = gameState.getPlayerY();
+		
+		if(destinationX > startX)
+			return Action.PlaceMineRight;
+		else if(destinationX < startX)
+			return Action.PlaceMineLeft;
+		else if(destinationY > startY)
+			return Action.PlaceMineDown;
+		else if(destinationY < startY)
+			return Action.PlaceMineUp;
+		else
+			return Action.NoAction;
+	}
+	
+	/**
 	 * Calculates the manhattan distance between the specified locations.
 	 * 
 	 * <pre>
