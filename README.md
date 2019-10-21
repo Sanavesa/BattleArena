@@ -46,7 +46,7 @@ A player can shoot in 4 directions: up, down, left, right. Projectiles can colli
 #### Placing Mines
 ![Image of Mine](https://cdn.discordapp.com/attachments/503002454418259968/633378425783975937/Screen_Shot_2019-10-14_at_2.59.35_PM.png)
 
-A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and any projectile. Placing a mine has a cooldown of 10 rounds; meaning, that it can only be placed once every 10 rounds.
+A player can place a mine in 4 directions: up, down, left, right. A mine does not move and will explode when it comes into contact with a player, another mine, and any projectile. Placing a mine has a cooldown of 20 rounds; meaning, that it can only be placed once every 10 rounds.
 
 ## API
 For the complete API available to user, head to [API Link](https://sanavesa.github.io).
