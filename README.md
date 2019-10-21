@@ -19,7 +19,7 @@ The game is round-based, meaning that each round both players perform their acti
 
 ![Image of Storm](https://media.discordapp.net/attachments/503002454418259968/633375622206586881/Screen_Shot_2019-10-14_at_2.48.13_PM.png)
 
-Every 10 rounds, the lava storm will advance by 1 block. The storm is the number of diagonal blocks from the corners of the map.
+Every 20 rounds, the lava storm will advance by 1 block. The storm is the number of diagonal blocks from the corners of the map.
 If a player comes into contact with a storm, they will die instantly and horribly. We wall want our wizards to go to heaven, don't we? But <i>noooo</i>, they die a fiery death and have no after-life. :(
 
 ### Health
@@ -41,7 +41,7 @@ A player can move in 4 directions: up, down, left, right. They can only move to 
 #### Shooting
 ![Image of Shooting](https://cdn.discordapp.com/attachments/503002454418259968/633380728826232840/piccccccccccccc.PNG)
 
-A player can shoot in 4 directions: up, down, left, right. Projectiles can collide with other hostile projectiles and mines, destroying both in the process. Projectiles will move 1 unit in the specified direction per round, matching the player's movement speed. Also, if a projectile comes into contact with a health pack, the shooter will gain +1 health point.
+A player can shoot in 4 directions: up, down, left, right. Projectiles can collide with other hostile projectiles and mines, destroying both in the process. Projectiles will move 1 unit in the specified direction per round, matching the player's movement speed. Also, if a projectile comes into contact with a health pack, the shooter will gain +1 health point. After you shoot 1 shot there will be a 2 round shot cool down in which the player will not be allowed to shoot until the cool down timer is over ( only can shoot once per 3 rounds ).
 
 #### Placing Mines
 ![Image of Mine](https://cdn.discordapp.com/attachments/503002454418259968/633378425783975937/Screen_Shot_2019-10-14_at_2.59.35_PM.png)
