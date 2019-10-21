@@ -564,6 +564,16 @@ public final class GameState
 	}
 	
 	/**
+	 * Returns the maximum round before the game ends as a tie.
+	 * 
+	 * @return maximum round
+	 */
+	public final int getMaxRound()
+	{
+		return Game.MAX_ROUNDS;
+	}
+	
+	/**
 	 * Returns true if the player can place a mine, false otherwise.
 	 * Note that the player can only place 1 mine per 10 rounds.
 	 * 
