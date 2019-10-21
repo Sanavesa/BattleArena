@@ -29,34 +29,7 @@ public class SimpleAI extends PlayerAI
 		if(distance <= 5 && gameUtility.haveLineOfSight(playerX, playerY, opponentX, opponentY))
 		{
 			// ... shoot the opponent
-			int dx = opponentX - playerX;
-			int dy = opponentY - playerY;
-			
-			 // opponent is to the right of us
-			if(dx > 0)
-			{
-				return Action.ShootRight;
-			}
-			// opponent is to the left of us
-			else if(dx < 0)
-			{
-				return Action.ShootLeft;
-			}
-			 // opponent is below us (in video games, the y-axis is inverted)
-			else if(dy > 0)
-			{
-				return Action.ShootDown;
-			}
-			 // opponent is above us
-			else if(dy < 0)
-			{
-				return Action.ShootUp;
-			}
-			// opponent is on us (should never happen ;p )
-			else
-			{
-				return Action.NoAction;
-			}
+			return gameUtility.shootTowards(opponentX, opponentY);
 		}
 		// We dont have line of sight, and opponent is far ...
 		else
@@ -64,6 +37,9 @@ public class SimpleAI extends PlayerAI
 			// ... place a mine randomly if we can
 			if(gameState.canPlaceMine())
 			{
+				// Can also do:
+				// return gameUtility.placeMineTowards(opponentX, opponentY);
+				
 				return gameUtility.chooseRandomly(Action.PlaceMineDown, Action.PlaceMineLeft, Action.PlaceMineRight, Action.PlaceMineUp);
 			}
 			// ... move towards the opponent
