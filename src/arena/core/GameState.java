@@ -581,7 +581,7 @@ public final class GameState
 	 */
 	public final boolean canShoot()
 	{
-		return game.getPlayer1().canShoot();
+		return player.canShoot();
 	}
 	
 	/**
@@ -592,7 +592,7 @@ public final class GameState
 	 */
 	public final int getCurrentShootCooldown()
 	{
-		return game.getPlayer1().getShootCooldown();
+		return player.getShootCooldown();
 	}
 	
 	/**
@@ -603,7 +603,7 @@ public final class GameState
 	 */
 	public final boolean canPlaceMine()
 	{
-		return game.getPlayer1().canPlaceMine();
+		return player.canPlaceMine();
 	}
 	
 	/**
@@ -614,6 +614,6 @@ public final class GameState
 	 */
 	public final int getCurrentMineCooldown()
 	{
-		return game.getPlayer1().getPlaceMineCooldown();
+		return player.getPlaceMineCooldown();
 	}
 }
