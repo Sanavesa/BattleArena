@@ -159,7 +159,7 @@ final class Player extends Entity
 	
 	private boolean shoot(int speedX, int speedY)
 	{
-		if(isDead() && !canShoot())
+		if(isDead() || !canShoot())
 			return false;
 		
 		Projectile projectile = map.addProjectile(getX(), getY(), speedX, speedY, this);
