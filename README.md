@@ -23,7 +23,7 @@ Every 10 rounds, the lava storm will advance by 1 block. The storm is the number
 If a player comes into contact with a storm, they will die instantly and horribly. We wall want our wizards to go to heaven, don't we? But <i>noooo</i>, they die a fiery death and have no after-life. :(
 
 ### Health
-![Image of Player Health](https://cdn.discordapp.com/attachments/503002454418259968/633381253432999945/pic2.PNG)
+![Image of Player Health](https://cdn.discordapp.com/attachments/503002454418259968/635693739825954816/Untitled.png)
 
 Health represents the amount of damage that a player can take before dying. When a player comes into contact with a projectile or a mine, they lose 1 health point. When their health reaches 0, they die an honorable death. The player starts with 3 health points, and can reach a maximum of 5 health points via health packs.
 
