@@ -10,7 +10,7 @@ Battle Arena is a deathmatch game where two players fight to the death. Users cr
 The following are the subsections of rules for the Battle Arena game.
 
 ### Map
-The map is a 20x20 grid that is vertically symmetrical. The map is randomly generated for each game, populated with walls and health packs.
+The map is a 20x20 grid that is vertically symmetrical. The map is randomly generated for each game, populated with walls and health packs. Top-left coordinate is (0,0) and the bottom-right is (19,19). The y-axis is inverted.
 
 ### Round
 The game is round-based, meaning that each round both players perform their actions simultaneously.
