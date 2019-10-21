@@ -12,7 +12,7 @@ final class Game
 	private final Class<? extends PlayerAI> p1Class;
 	private final Class<? extends PlayerAI> p2Class;
 	
-	public static final int ROUND_PER_STORM_ADVANCE = 10;
+	public static final int ROUND_PER_STORM_ADVANCE = 20;
 	public static final double MAP_WALL_DENSITY = 0.15;
 	public static final double MAP_HEALTH_PACK_DENSITY = 0.02;
 	public static final int MAX_ROUNDS = 200;

@@ -9,9 +9,11 @@ final class Player extends Entity
 	private int health = HEALTH_START;
 	private final String name;
 	private final Color color;
+	private int shootCooldown = 0;
 	private int placeMineCooldown = 0;
 	private int xScaleMultiplier = 1;
 	static final int MINE_COOLDOWN = 10;
+	static final int SHOOT_COOLDOWN = 3;
 	
 	Player(Map map, int x, int y, String name, Color color)
 	{
@@ -157,11 +159,17 @@ final class Player extends Entity
 	
 	private boolean shoot(int speedX, int speedY)
 	{
-		if(isDead())
+		if(isDead() && !canShoot())
 			return false;
 		
 		Projectile projectile = map.addProjectile(getX(), getY(), speedX, speedY, this);
+		shootCooldown = SHOOT_COOLDOWN;
 		return projectile != null;
+	}
+	
+	final boolean canShoot()
+	{
+		return shootCooldown <= 0;
 	}
 
 	final int getHealth()
@@ -210,9 +218,19 @@ final class Player extends Entity
 		return placeMineCooldown;
 	}
 	
+	final int getShootCooldown()
+	{
+		return shootCooldown;
+	}
+	
 	@Override
 	void onUpdate()
 	{
+		if(shootCooldown > 0)
+		{
+			shootCooldown--;
+		}
+		
 		if(placeMineCooldown > 0)
 		{
 			placeMineCooldown--;

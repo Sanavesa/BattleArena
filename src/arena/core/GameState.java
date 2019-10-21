@@ -574,6 +574,28 @@ public final class GameState
 	}
 	
 	/**
+	 * Returns true if the player can shoot a projectile, false otherwise.
+	 * Note that the player can only shoot 1 projectile per 3 rounds.
+	 * 
+	 * @return true if can shoot projectile, false otherwise
+	 */
+	public final boolean canShoot()
+	{
+		return game.getPlayer1().canShoot();
+	}
+	
+	/**
+	 * Returns the amount of rounds before the player can shoot a projectile.
+	 * Note that the player can only shoot 1 projectile per 3 rounds.
+	 * 
+	 * @return amount of rounds before can shoot a projectile
+	 */
+	public final int getCurrentShootCooldown()
+	{
+		return game.getPlayer1().getPlaceMineCooldown();
+	}
+	
+	/**
 	 * Returns true if the player can place a mine, false otherwise.
 	 * Note that the player can only place 1 mine per 10 rounds.
 	 * 
