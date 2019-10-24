@@ -1,5 +1,8 @@
 package arena.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The <code>GameState</code> class represents a snapshot of the environment at a specific round. It contains crucial information about
  * everything going on in the world at that point, including: position of players, storm size, and access to the entire map for processing.
@@ -185,6 +188,32 @@ public final class GameState
 			return EntityType.Storm;
 		
 		return EntityType.Empty;
+	}
+	
+	/**
+	 * Returns an array of all <b>hostile</b> projectiles in the map. See {@link ProjectileData} for the structure of the projectile data.
+	 * 
+	 * @return an array of all hostile projectiles in the map
+	 */
+	public final ProjectileData[] getProjectileDatas()
+	{
+		List<ProjectileData> data = new ArrayList<>();
+		
+		for(Entity entity : map.getEntities())
+		{
+			if(entity instanceof Projectile)
+			{
+				Projectile projectile = (Projectile) entity;
+				
+				// Ignore friendly projectiles
+				if(projectile.isOwner(player)) continue;
+				
+				data.add(new ProjectileData(projectile));
+			}
+		}
+		
+		// Convert to array
+		return data.toArray(new ProjectileData[data.size()]);
 	}
 	
 	/**

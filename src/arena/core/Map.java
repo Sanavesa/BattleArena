@@ -354,4 +354,9 @@ final class Map
 		double distance = Math.min(minX, minY);
 		return distance <= stormSize;
 	}
+
+	final Set<Entity> getEntities()
+	{
+		return entities;
+	}
 }
