@@ -51,4 +51,7 @@ A player can place a mine in 4 directions: up, down, left, right. A mine does no
 ## API
 For the complete API available to user, head to [API Link](https://sanavesa.github.io).
 
+## Installation
+For the installation instructions (only for Eclipse2019 or newer), head to [Installation](Installation.md).
+
 ![Gif of Gameplay](https://cdn.discordapp.com/attachments/503002454418259968/633385448382791690/gameplay.gif)
