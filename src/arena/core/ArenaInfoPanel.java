@@ -108,19 +108,19 @@ final class ArenaInfoPanel extends AnchorPane
 	public void onRedisplay()
 	{
 		// Update p1
-		p1Name.setText(game.getPlayer1().getName());
+		p1Name.setText(game.getPlayer1().getDisplayName());
 		p1HealthPanel.update(game.getPlayer1().getHealth());
 		double p1Hue = -1+2*(((game.getPlayer1().getColor().getHue() + 180) % 360)/360);
 		p1ColorAdjust.setHue(p1Hue);
 		
 		// Update p2
-		p2Name.setText(game.getPlayer2().getName());
+		p2Name.setText(game.getPlayer2().getDisplayName());
 		p2HealthPanel.update(game.getPlayer2().getHealth());
 		double p2Hue = -1+2*(((game.getPlayer2().getColor().getHue() + 180) % 360)/360);
 		p2ColorAdjust.setHue(p2Hue);
 		
 		// Update rounds
-		roundLabel.setText("Round " + String.valueOf(game.getRound()));
+		roundLabel.setText("Round " + String.valueOf(game.getRound()) + " / " + String.valueOf(Game.MAX_ROUNDS));
 		stormRoundLabel.setText("Storm advances in " + String.valueOf(game.getRoundsTillNextStormAdvance()) + " rounds");
 		stormSizeLabel.setText("Storm Size is " + String.valueOf(game.getMap().getStormSize()) + "/" + String.valueOf(game.getMap().getStormMaxSize()));
 		

@@ -112,12 +112,12 @@ final class Map
 		return isEmpty(x, y);
 	}
 	
-	final Player addPlayer(int x, int y, String name, Color color)
+	final Player addPlayer(int x, int y, String name, int playerNum, Color color)
 	{
 		if(!canAddPlayer(x, y))
 			return null;
 		
-		Player player = new Player(this, x, y, name, color);
+		Player player = new Player(this, x, y, name, playerNum, color);
 		entities.add(player);
 		players.add(player);
 		

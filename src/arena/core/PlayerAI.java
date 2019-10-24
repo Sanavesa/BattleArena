@@ -120,11 +120,11 @@ public abstract class PlayerAI
 		// Logging what happened
 		if(successful)
 		{
-			System.out.println("[" + player.getName() + " - " + player.getClass().getSimpleName() + "] Succesfully performed " + action.toString());
+			System.out.println("\t[" + player.getName() + " - " + this.getClass().getSimpleName() + "] Succesfully performed " + action.toString());
 		}
 		else
 		{
-			System.out.println("[" + player.getName() + " - " + player.getClass().getSimpleName() + "] Failed to perform " + action.toString());
+			System.out.println("\t[" + player.getName() + " - " + this.getClass().getSimpleName() + "] Failed to perform " + action.toString());
 		}
 	}
 }
