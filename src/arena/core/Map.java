@@ -48,12 +48,17 @@ final class Map
 	{
 		int centerX = width / 2;
 		int centerY = height / 2;
+		int centerSize = 2;
 		
 		for(int y = 0; y < height; y++)
 		{
 			for(int x = 0; x < width / 2; x++)
 			{
-				if(x == centerX && y == centerY)
+				// Ignore center
+				if(	x >= centerX - centerSize &&
+					x <= centerX + centerSize &&
+					y >= centerY - centerSize &&
+					y <= centerY + centerSize)
 					continue;
 				
 				if(Math.random() < wallDensity)
