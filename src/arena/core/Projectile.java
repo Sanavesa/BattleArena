@@ -83,4 +83,14 @@ final class Projectile extends Entity
 	{
 		destroy();
 	}
+
+	int getSpeedX()
+	{
+		return speedX;
+	}
+
+	int getSpeedY()
+	{
+		return speedY;
+	}
 }

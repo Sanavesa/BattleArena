@@ -37,6 +37,101 @@ public final class GameState
 		Storm
 	}
 	
+	/**
+	 * The <code>Direction</code> enum represents a set of 4-way directions.
+	 * 
+	 * <p>
+	 * Possible values include:
+	 * </p>
+	 * <ul>
+	 * <li>{@link #Up}</li>
+	 * <li>{@link #Down}</li>
+	 * <li>{@link #Left}</li>
+	 * <li>{@link #Right}</li>
+	 * </ul> 
+	 * 
+	 * @author ERAU AI Club
+	 */
+	public enum Direction
+	{
+		/** The direction is up. That means (x=0, y=-1).*/
+		Up,
+		
+		/** The direction is down. That means (x=0, y=1).*/
+		Down,
+		
+		/** The direction is left. That means (x=-1, y=0).*/
+		Left,
+		
+		/** The direction is right. That means (x=1, y=0).*/
+		Right
+	}
+	
+	/**
+	 *The <code>ProjectileData</code> represents a snapshot of a projectile's data such as position and movement direction.
+	 * 
+	 * 
+	 * @author ERAU AI Club
+	 */
+	public class ProjectileData
+	{
+		private final int x;
+		private final int y;
+		private final Direction moveDirection;
+		
+		ProjectileData(Projectile projectile)
+		{
+			x = projectile.getX();
+			y = projectile.getY();
+			int dirX = projectile.getSpeedX();
+			int dirY = projectile.getSpeedY();
+			if(dirX > 0)
+				moveDirection = Direction.Right;
+			else if(dirX < 0)
+				moveDirection = Direction.Left;
+			else if(dirY > 0)
+				moveDirection = Direction.Down;
+			else
+				moveDirection = Direction.Up;
+		}
+
+		/**
+		 * Returns the projectile's x-position. The x-position is a value from 0 (left-most) to <code>{@link #getMapWidth()}-1</code> (right-most).
+		 * 
+		 * @return the projectile's x-position
+		 */
+		public int getX()
+		{
+			return x;
+		}
+
+		/**
+		 * Returns the projectile's y-position. The y-position is a value from 0 (top-most) to <code>{@link #getMapHeight()}-1</code> (bottom-most).
+		 * 
+		 * @return the projectile's y-position
+		 */
+		public int getY()
+		{
+			return y;
+		}
+
+		/**
+		 * Returns the projectile's movement direction. See {@link Direction} for all possible values.
+		 * 
+		 * @return the projectile's movement direction
+		 */
+		public Direction getMoveDirection()
+		{
+			return moveDirection;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "ProjectileData [x=" + x + ", y=" + y + ", moveDirection=" + moveDirection + "]";
+		}
+	}
+	
 	private final Player player;
 	private Player otherPlayer;
 	private final Map map;

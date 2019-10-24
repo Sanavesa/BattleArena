@@ -1,7 +1,7 @@
 package arena.core;
 
 /**
- * The PlayerAI class represents the base class for all artificial intelligence agents for the Battle Arena game.
+ * The <code>PlayerAI</code> class represents the base class for all artificial intelligence agents for the Battle Arena game.
  * All AI agents inherit from this class and extends its {@link #getNextAction(GameState, GameUtility)} method to define
  * the agent's logic for decision making.
  * 
