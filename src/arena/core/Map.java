@@ -1,6 +1,7 @@
 package arena.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -299,7 +300,7 @@ final class Map
 		}
 	}
 	
-	private final void updateAll()
+	private final void updateAll(Collection<? extends Entity> entities)
 	{
 		for(Entity entity : entities)
 		{
@@ -316,10 +317,10 @@ final class Map
 		}
 	}
 	
-	final void tick()
+	final void tick(Collection<? extends Entity> entities)
 	{
 		deleteRemovedEntities();
-		updateAll();
+		updateAll(entities);
 		checkCollisions();
 		deleteRemovedEntities();
 	}

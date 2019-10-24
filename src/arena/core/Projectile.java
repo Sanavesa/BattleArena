@@ -28,6 +28,11 @@ final class Projectile extends Entity
 	{
 		int oldX = getX();
 		int oldY = getY();
+		int newX = oldX + speedX;
+		int newY = oldY + speedY;
+		
+		Entity destinationEntity = map.getEntity(newX, newY);
+		
 		setX(getX() + speedX);
 		setY(getY() + speedY);
 		
@@ -35,6 +40,12 @@ final class Projectile extends Entity
 		if(oldX == getX() && oldY == getY())
 		{
 			destroy();
+		}
+		// Moved -> check for collisions in between
+		else
+		{
+			if(destinationEntity != null)
+				onCollidedGeneric(destinationEntity);
 		}
 	}
 	
@@ -48,18 +59,21 @@ final class Projectile extends Entity
 	{
 		player.setHealth(player.getHealth() + 1);
 		destroy();
+		healthPack.destroy();
 	}
 	
 	@Override
 	protected void onCollided(Mine mine)
 	{
 		destroy();
+		mine.destroy();
 	}
 	
 	@Override
 	protected void onCollided(Projectile projectile)
 	{
 		destroy();
+		projectile.destroy();
 	}
 	
 	@Override

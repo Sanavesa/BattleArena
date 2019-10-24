@@ -19,6 +19,7 @@ final class HealthPack extends Entity
 	{
 		// Destroy health pack when colliding with projectile
 		destroy();
+		projectile.destroy();
 	}
 	
 	@Override
@@ -37,5 +38,6 @@ final class HealthPack extends Entity
 	void onCollided(Mine mine)
 	{
 		destroy();
+		mine.destroy();
 	}
 }

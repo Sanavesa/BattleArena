@@ -34,12 +34,14 @@ final class Player extends Entity
 	final void onCollided(HealthPack healthPack)
 	{
 		setHealth(getHealth() + 1);
+		healthPack.destroy();
 	}
 	
 	@Override
 	final void onCollided(Mine mine)
 	{
 		setHealth(getHealth() - 1);
+		mine.destroy();
 	}
 	
 	@Override
@@ -50,6 +52,7 @@ final class Player extends Entity
 			return;
 		
 		setHealth(getHealth() - 1);
+		projectile.destroy();
 	}
 	
 	final boolean moveUp()
@@ -78,8 +81,14 @@ final class Player extends Entity
 	{
 		if(canMove(x, y))
 		{
+			Entity destinationEntity = map.getEntity(x, y);
+			
 			setX(x);
 			setY(y);
+			
+			if(destinationEntity != null)
+				onCollidedGeneric(destinationEntity);
+			
 			return true;
 		}
 		

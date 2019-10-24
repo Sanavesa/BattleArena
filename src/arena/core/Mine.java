@@ -19,6 +19,7 @@ final class Mine extends Entity
 	{
 		// Destroy mine when colliding with projectile
 		destroy();
+		projectile.destroy();
 	}
 	
 	@Override

@@ -1,5 +1,8 @@
 package arena.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import arena.agents.RandomAI;
 import javafx.scene.paint.Color;
 
@@ -80,12 +83,15 @@ final class Game
 		if(isGameOver())
 			return;
 		
+		// Capture entities that were alive at this time
+		Set<Entity> entities = new HashSet<>(map.getEntities());
+		
 		round++;
 		System.out.println("Round " + round + " / " + MAX_ROUNDS);
 		agent1.playRound(this, player1, player2);
 		agent2.playRound(this, player2, player1);
 		System.out.println();
-		map.tick();
+		map.tick(entities);
 		if(round % ROUND_PER_STORM_ADVANCE == 0)
 		{
 			map.advanceStorm();
