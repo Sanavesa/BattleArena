@@ -117,12 +117,12 @@ final class Map
 		return isEmpty(x, y);
 	}
 	
-	final Player addPlayer(int x, int y, String name, int playerNum, Color color)
+	final Player addPlayer(int x, int y, String name, String className, Color color)
 	{
 		if(!canAddPlayer(x, y))
 			return null;
 		
-		Player player = new Player(this, x, y, name, playerNum, color);
+		Player player = new Player(this, x, y, name, className, color);
 		entities.add(player);
 		players.add(player);
 		
@@ -182,7 +182,7 @@ final class Map
 		if(destEntity instanceof Wall || destEntity instanceof Storm)
 			return false;
 		
-		return isEmpty(x, y);
+		return true;
 	}
 	
 	final HealthPack addHealthPack(int x, int y)

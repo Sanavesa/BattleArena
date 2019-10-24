@@ -66,8 +66,8 @@ final class Game
 			x = (int) (Math.random() * map.getWidth());
 			y = (int) (Math.random() * map.getHeight());	
 		}
-		player1 = map.addPlayer(x, y, "P1", 1, Color.BLUE);
-		player2 = map.addPlayer(map.getWidth() - x - 1, y, "P2", 2, Color.RED);
+		player1 = map.addPlayer(x, y, "P1", agent1.getClass().getSimpleName(), Color.BLUE);
+		player2 = map.addPlayer(map.getWidth() - x - 1, y, "P2", agent2.getClass().getSimpleName(), Color.RED);
 	}
 	
 	public final boolean isGameOver()

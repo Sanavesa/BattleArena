@@ -8,7 +8,7 @@ final class Player extends Entity
 	static final int HEALTH_START = 3;
 	private int health = HEALTH_START;
 	private final String name;
-	private final int playerNum;
+	private final String className;
 	private final Color color;
 	private int shootCooldown = 0;
 	private int placeMineCooldown = 0;
@@ -16,11 +16,11 @@ final class Player extends Entity
 	static final int MINE_COOLDOWN = 10;
 	static final int SHOOT_COOLDOWN = 3;
 	
-	Player(Map map, int x, int y, String name, int playerNum, Color color)
+	Player(Map map, int x, int y, String name, String className, Color color)
 	{
 		super(map, x, y);
 		this.name = name;
-		this.playerNum = playerNum;
+		this.className = className;
 		this.color = color;
 	}
 
@@ -164,7 +164,7 @@ final class Player extends Entity
 		if(isDead() || !canShoot())
 			return false;
 		
-		Projectile projectile = map.addProjectile(getX(), getY(), speedX, speedY, this);
+		Projectile projectile = map.addProjectile(getX() + speedX, getY() + speedY, speedX, speedY, this);
 		shootCooldown = SHOOT_COOLDOWN;
 		return projectile != null;
 	}
@@ -199,9 +199,9 @@ final class Player extends Entity
 		return name;
 	}
 	
-	final int getPlayerNum()
+	final String getClassName()
 	{
-		return playerNum;
+		return className;
 	}
 	
 	final Color getColor()
@@ -212,20 +212,6 @@ final class Player extends Entity
 	final int getXScaleMultiplier()
 	{
 		return xScaleMultiplier;
-	}
-	
-	final String getDisplayName()
-	{
-		if(playerNum == 1) // left P1
-			return name + " - " + getClass().getSimpleName();
-		else
-			return getClass().getSimpleName() + " - " + name;
-	}
-
-	@Override
-	public final String toString()
-	{
-		return getDisplayName();
 	}
 	
 	final int getPlaceMineCooldown()

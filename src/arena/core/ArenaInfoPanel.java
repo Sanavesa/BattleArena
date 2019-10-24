@@ -108,13 +108,13 @@ final class ArenaInfoPanel extends AnchorPane
 	public void onRedisplay()
 	{
 		// Update p1
-		p1Name.setText(game.getPlayer1().getDisplayName());
+		p1Name.setText(game.getPlayer1().getName() + " - " + game.getPlayer1().getClassName());
 		p1HealthPanel.update(game.getPlayer1().getHealth());
 		double p1Hue = -1+2*(((game.getPlayer1().getColor().getHue() + 180) % 360)/360);
 		p1ColorAdjust.setHue(p1Hue);
 		
 		// Update p2
-		p2Name.setText(game.getPlayer2().getDisplayName());
+		p2Name.setText(game.getPlayer2().getClassName() + " - " + game.getPlayer2().getName());
 		p2HealthPanel.update(game.getPlayer2().getHealth());
 		double p2Hue = -1+2*(((game.getPlayer2().getColor().getHue() + 180) % 360)/360);
 		p2ColorAdjust.setHue(p2Hue);
