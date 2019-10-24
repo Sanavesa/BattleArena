@@ -16,7 +16,7 @@ final class Game
 	private final Class<? extends PlayerAI> p2Class;
 	
 	public static final int ROUND_PER_STORM_ADVANCE = 20;
-	public static final double MAP_WALL_DENSITY = 0.2;
+	public static final double MAP_WALL_DENSITY = 0.3;
 	public static final double MAP_HEALTH_PACK_DENSITY = 0.02;
 	public static final int MAX_ROUNDS = 200;
 	
@@ -57,6 +57,11 @@ final class Game
 		map.generateHealthPacks(MAP_HEALTH_PACK_DENSITY);
 		createAgents();
 		generatePlayers();
+		
+		GameState gameState = new GameState(this, player1, player2);
+		GameUtility gameUtility = new GameUtility(gameState);
+		if(!gameUtility.isReachable(player1.getX(), player1.getY(), player2.getX(), player2.getY()))
+			generateMap();
 	}
 	
 	private final void generatePlayers()
