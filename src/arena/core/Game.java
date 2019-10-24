@@ -77,7 +77,6 @@ final class Game
 	
 	public final void tick()
 	{
-		System.out.println();
 		round++;
 		agent1.playRound(this, player1, player2);
 		agent2.playRound(this, player2, player1);

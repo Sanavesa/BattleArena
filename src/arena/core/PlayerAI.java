@@ -58,61 +58,73 @@ public abstract class PlayerAI
 		if(action == null)
 			action = Action.NoAction;
 		
+		boolean successful = true;
+		
 		switch(action)
 		{
 			case NoAction:
 				break;
 				
 			case MoveUp:
-				player.moveUp();
+				successful = player.moveUp();
 				break;
 				
 			case MoveDown:
-				player.moveDown();
+				successful = player.moveDown();
 				break;
 				
 			case MoveLeft:
-				player.moveLeft();
+				successful = player.moveLeft();
 				break;
 				
 			case MoveRight:
-				player.moveRight();
+				successful = player.moveRight();
 				break;
 				
 			case ShootUp:
-				player.shootUp();
+				successful = player.shootUp();
 				break;
 				
 			case ShootDown:
-				player.shootDown();
+				successful = player.shootDown();
 				break;
 				
 			case ShootLeft:
-				player.shootLeft();
+				successful = player.shootLeft();
 				break;
 				
 			case ShootRight:
-				player.shootRight();
+				successful = player.shootRight();
 				break;
 				
 			case PlaceMineUp:
-				player.placeMineUp();
+				successful = player.placeMineUp();
 				break;
 				
 			case PlaceMineDown:
-				player.placeMineDown();
+				successful = player.placeMineDown();
 				break;
 				
 			case PlaceMineLeft:
-				player.placeMineLeft();
+				successful = player.placeMineLeft();
 				break;
 				
 			case PlaceMineRight:
-				player.placeMineRight();
+				successful = player.placeMineRight();
 				break;
 				
 			default:
 				throw new IllegalStateException("Unknown action: " + action);
+		}
+		
+		// Logging what happened
+		if(successful)
+		{
+			System.out.println("[" + player.getName() + " - " + player.getClass().getSimpleName() + "] Succesfully performed " + action.toString());
+		}
+		else
+		{
+			System.out.println("[" + player.getName() + " - " + player.getClass().getSimpleName() + "] Failed to perform " + action.toString());
 		}
 	}
 }
